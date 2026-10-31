@@ -262,6 +262,54 @@ nav button.on em{filter:none}
 .lift-reps{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.5;font-weight:600;margin-left:4px}
 .sets-prog{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.65;font-weight:600;margin-top:3px}
 
+
+/* ---------- fun stuff: quips, weights, rest timer, badges, recap ---------- */
+.lift-q{font-size:12.5px;font-style:italic;opacity:.6;margin:-3px 0 8px;line-height:1.3}
+.wt-row{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;opacity:.8}
+.wt-row input{width:72px;background:#0B0A0F;border:1.5px solid var(--line);color:var(--gold);font-family:'Anton';font-size:15px;padding:5px 7px;text-align:center}
+.wt-row input:focus{border-color:var(--gold);outline:0}
+.wt-row small{opacity:.65}
+#rest{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;pointer-events:none;
+  z-index:90;display:flex;align-items:center;gap:12px;background:#0B0A0F;border:2.5px solid var(--gold);padding:8px 10px 8px 14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.7);transition:transform .25s,opacity .25s;max-width:94vw}
+#rest.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+#rest b{font-family:'Anton';font-size:26px;color:var(--gold);min-width:52px;text-align:center}
+#rest span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+#rest button{border:1.5px solid var(--line);padding:6px 9px;font-size:12px;font-weight:700;color:#cfc6b4}
+#rest.over{border-color:var(--red);animation:throb .5s ease 3}
+#rest.over b{color:var(--red)}
+@keyframes throb{50%{transform:translate(-50%,-4px) scale(1.05)}}
+.count.pulse div{border-color:var(--gold);animation:throb2 1.6s ease-in-out infinite}
+@keyframes throb2{50%{background:#2a2112}}
+.badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.badge{display:flex;gap:10px;align-items:center;background:var(--panel);border:2px solid var(--gold);padding:10px}
+.badge i{font-style:normal;font-size:26px}
+.badge b{display:block;font-family:'Anton';font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.badge span{font-size:11.5px;opacity:.7;line-height:1.25;display:block}
+.badge.lock{border-color:var(--line);opacity:.5}
+.badge.lock i{filter:grayscale(1)}.badge.lock b{color:#9a9184}
+.recap{background:var(--panel);border:2px solid var(--gold);padding:14px}
+.recap h4{font-family:'Anton';font-size:24px;text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px}
+.recap .rrow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:15px}
+.recap .rrow b{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.recap .cap{margin:12px 0 10px}
+.feel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.feel button{border:2px solid var(--line);padding:10px 2px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.feel button em{display:block;font-style:normal;font-size:30px;margin-bottom:3px}
+.feel button.on{border-color:var(--gold);color:var(--gold)}
+.mgoal{background:var(--panel);border:2px solid var(--line);padding:12px 14px;margin-bottom:10px}
+.mgoal.now{border-color:var(--gold)}
+.mgoal.won{border-color:var(--green)}
+.mgoal h4{font-family:'Anton';font-size:20px;text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.mgoal h4 em{font-style:normal;font-size:11.5px;letter-spacing:.15em;color:var(--gold);font-family:inherit;font-weight:700;align-self:center}
+.gline{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:6px}
+.gline span:last-child{color:var(--gold);font-family:'Anton';letter-spacing:.05em;font-size:14px}
+.gbar{height:9px;background:#0B0A0F;border:1.5px solid var(--line);margin-top:4px}
+.gbar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .6s}
+.gbar.full i{background:var(--green)}
+.logrow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.logrow b{color:var(--gold);font-family:'Anton';font-weight:400;white-space:nowrap}
+
 /* =============================================
    RESPONSIVE: TABLET + DESKTOP
    ============================================= */
@@ -408,7 +456,9 @@ nav button.on em{filter:none}
       <div><b>--</b><span>Min</span></div><div><b>--</b><span>Sec</span></div>
     </div>
     <div class="eyebrow" id="raceLine" style="text-align:center;margin-bottom:4px">Race day</div>
+    <div class="cap r" id="dramaLine" style="text-align:center;margin-bottom:6px"></div>
 
+    <div id="monthCard"></div>
     <div class="sect"><h3>This week</h3><div class="eyebrow" id="weekFocus">Base building</div></div>
     <div id="swapBar"></div>
     <div id="weekList"></div>
@@ -439,6 +489,8 @@ nav button.on em{filter:none}
 
 <!-- ---------------- RECORD ---------------- -->
 <section class="tab" id="tab-record">
+  <div class="sect"><h3>Weekly recap</h3><div class="eyebrow" id="recapWk">Week 1</div></div>
+  <div class="recap" id="recap"></div>
   <div class="sect"><h3>The record</h3></div>
   <div class="grid2">
     <div class="box"><b id="sMiles">0</b><span>Miles logged</span></div>
@@ -448,6 +500,13 @@ nav button.on em{filter:none}
   </div>
   <div class="sect"><h3>Weekly mileage</h3><div class="eyebrow">Completed only</div></div>
   <div class="bars" id="bars"></div>
+
+  <div class="sect"><h3>Monthly goals</h3><div class="eyebrow">Set by the plan</div></div>
+  <div id="monthGoals"></div>
+  <div class="sect"><h3>Badges</h3><div class="eyebrow" id="badgeCount">0 earned</div></div>
+  <div class="badges" id="badges"></div>
+  <div class="sect"><h3>Lift log</h3><div class="eyebrow">Heaviest logged, first to latest</div></div>
+  <div id="liftLog"></div>
 
   <div class="sect"><h3>Settings</h3></div>
   <label class="field"><span>Training starts (a Monday)</span><input type="date" id="startInput"></label>
@@ -467,6 +526,7 @@ nav button.on em{filter:none}
 </nav>
 
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<div id="rest"><b id="restT">1:00</b><span id="restL">Rest</span><button id="restAdd">+15s</button><button id="restX" aria-label="Dismiss timer">\u2715</button></div>
 <div id="fx"><div class="pow">POW!</div></div>
 
 <script>
@@ -549,8 +609,24 @@ const DAYNAME=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Su
 
 /* two sessions from Running for Women, alternating Tue/Thu/Sat: 1-2-1, then 2-1-2 */
 const SESSIONS=[
-  {title:"Session 1 \u00b7 Squat, press + pull",hero:"captain",ex:["Barbell squat","Dumbbell incline press","One-leg dumbbell Russian deadlift (each side)","Pull-ups","Dumbbell step-up","Tri-pushdown","Back extension","Crunches"]},
-  {title:"Session 2 \u00b7 Single-leg, bench + hinge",hero:"hq",ex:["One-leg squat (each side)","Dumbbell bench press","Russian deadlift (barbell)","Chin-ups","Dumbbell lunge","Dumbbell bicep curl","Superman","Medicine ball twist"]}
+  {title:"Session 1 \u00b7 Squat, press + pull",hero:"captain",ex:[
+    {n:"Barbell squat",q:"Chest up, knees out. Weezer judges depth."},
+    {n:"Dumbbell incline press",q:"Reach for the ceiling. The Vacuum Monster lives up there."},
+    {n:"One-leg dumbbell Russian deadlift (each side)",q:"Balance like a dachshund on a tightrope."},
+    {n:"Pull-ups",q:"Chin over the bar. All the way down. No cheating."},
+    {n:"Dumbbell step-up",q:"Step up like the mail truck just pulled in."},
+    {n:"Tri-pushdown",q:"Elbows pinned. Triceps only."},
+    {n:"Back extension",q:"Hips to shoulders, one straight line."},
+    {n:"Crunches",q:"Up fast, down slow. Leave your neck out of it."}]},
+  {title:"Session 2 \u00b7 Single-leg, bench + hinge",hero:"hq",ex:[
+    {n:"One-leg squat (each side)",q:"Back foot on the bench. Front knee stays behind the toes."},
+    {n:"Dumbbell bench press",q:"Control the weight on the way down."},
+    {n:"Russian deadlift (barbell)",q:"Bar brushes the shins. Back stays flat."},
+    {n:"Chin-ups",q:"Palms in. Same rules, same heart."},
+    {n:"Dumbbell lunge",q:"Big step. Back knee almost kisses the floor."},
+    {n:"Dumbbell bicep curl",q:"Elbows pinned. No swinging."},
+    {n:"Superman",q:"Fly, little hero. Pause at the top."},
+    {n:"Medicine ball twist",q:"Feet off the floor. Control the ball."}]}
 ];
 function sessOf(w,n){return (w*3+n)%2;}
 function lift(w,n){
@@ -621,17 +697,20 @@ function todayIndex(){
 
 /* ============ derived stats ============ */
 function stats(){
-  let done=0,miles=0,longMax=0,rest=0,raceDone=false,perWeek=Array(12).fill(0),xp=0;
+  let done=0,miles=0,longMax=0,rest=0,raceDone=false,perWeek=Array(12).fill(0),xp=0,lifts=0,satLifts=0;
   PLAN.forEach((wk,w)=>wk.forEach(day=>{
     if(!isDone(w,day.d))return;
     done++; xp+=day.xp; miles+=day.mi; perWeek[w]+=day.mi;
     if(day.type==="rest")rest++;
+    if(day.type==="strength"){lifts++;if(day.d===5)satLifts++;}
     if(day.type==="long"&&day.mi>longMax)longMax=day.mi;
     if(day.type==="race"){raceDone=true;longMax=Math.max(longMax,13.1);}
   }));
   let streak=0;
   for(let w=0;w<12;w++){ if(PLAN[w].filter(d=>d.type!=="rest").every(d=>isDone(w,d.d))) streak++; else if(w<todayIndex().w) streak=0; }
-  return {done,miles,longMax,rest,raceDone,perWeek,xp,streak,rescues:S.rescues||0,
+  const perfect=PLAN.some((wk,w)=>wk.filter(d=>d.type!=="rest").every(d=>isDone(w,d.d)));
+  const wtCount=Object.keys(S.wt||{}).filter(n=>Object.keys(S.wt[n]).length).length;
+  return {done,miles,longMax,rest,raceDone,perWeek,xp,streak,lifts,satLifts,perfect,wtCount,rescues:S.rescues||0,
     total:84,pct:Math.round(done/84*100)};
 }
 const RANKS=[[0,"Rookie handler"],[350,"Field partner"],[900,"Squad captain"],[1600,"Elite operative"],[2400,"Legend of the long run"]];
@@ -645,7 +724,7 @@ function liftPlan(w,day){
     {name:'Bodyweight squat',sc:2,reps:'8'},{name:'Hip hinge',sc:2,reps:'8'},
     {name:'Push-up',sc:2,reps:'8'},{name:'Plank',sc:2,reps:'30s'},
   ];
-  return SESSIONS[day.sess].ex.map(name=>({name,sc:3,reps:'12'}));
+  return SESSIONS[day.sess].ex.map(e=>({name:e.n,q:e.q,sc:3,reps:'12'}));
 }
 function setsKey(w,d,ei,si){return w+':'+d+':'+ei+':'+si;}
 function isSetDone(w,d,ei,si){return!!(S.sets&&S.sets[setsKey(w,d,ei,si)]);}
@@ -657,6 +736,7 @@ function setsProgHTML(w,d,exs){
 function toggleSet(w,d,ei,si,exs){
   if(!S.sets)S.sets={};
   const k=setsKey(w,d,ei,si);
+  const on=!S.sets[k];
   if(S.sets[k])delete S.sets[k]; else S.sets[k]=true;
   // update every matching button in-place (mission card + open modal)
   document.querySelectorAll(`.set-box[data-w="${w}"][data-d="${d}"][data-ei="${ei}"][data-si="${si}"]`)
@@ -666,30 +746,50 @@ function toggleSet(w,d,ei,si,exs){
   document.querySelectorAll(`.sets-prog[data-w="${w}"][data-d="${d}"]`)
     .forEach(el=>el.textContent=dn+'\u202f/\u202f'+tot+' sets');
   if(dn===tot&&!isDone(w,d)){
-    const before=SQUAD_ORDER.filter(unlocked);
+    const b=snap();
+    hideRest();
     S.done[key(w,d)]=true; save();
     const doneBtn=$('liftDoneBtn');
     if(doneBtn){doneBtn.textContent='\u2713 Mission complete';doneBtn.className='do done';}
-    burst(PLAN[w].find(x=>x.d===d));
+    const day=PLAN[w].find(x=>x.d===d);
+    burst(day);
     renderAll();
-    const gained=SQUAD_ORDER.filter(unlocked).find(x=>!before.includes(x));
-    if(gained)setTimeout(()=>openHero(gained),900);
-  }else{save();renderHeader();}
+    afterComplete(w,day,b);
+  }else{save();renderHeader();if(on)startRest(60);}
+}
+function wtGet(n,w){return S.wt&&S.wt[n]?S.wt[n][w]:undefined;}
+function wtPrev(n,w){const m=(S.wt&&S.wt[n])||{};const ks=Object.keys(m).map(Number).filter(x=>x<w).sort((a,b)=>b-a);return ks.length?m[ks[0]]:undefined;}
+function wtRowHTML(w,name){
+  const v=wtGet(name,w), pv=wtPrev(name,w);
+  return `<div class="wt-row"><span>Weight</span><input type="number" inputmode="decimal" min="0" step="2.5" placeholder="lb" data-wt="${name.replace(/"/g,'&quot;')}" data-w="${w}" value="${v??''}">${pv!=null?`<small>last time ${pv} lb</small>`:''}</div>`;
 }
 function liftInnerHTML(w,d,exs){
   return exs.map((ex,ei)=>
     `<div class="lift-ex">
       <div class="lift-name">${ex.name}</div>
+      ${ex.q?`<div class="lift-q">${ex.q}</div>`:''}
       <div class="lift-sets">
         ${[...Array(ex.sc)].map((_,si)=>
           `<button class="set-box${isSetDone(w,d,ei,si)?' hit':''}" data-w="${w}" data-d="${d}" data-ei="${ei}" data-si="${si}">${si+1}</button>`
         ).join('')}
         <span class="lift-reps">&times;&thinsp;${ex.reps}</span>
       </div>
+      ${ex.q?wtRowHTML(w,ex.name):''}
     </div>`
   ).join('');
 }
 function bindLiftButtons(root,exs){
+  root.querySelectorAll('.wt-row input').forEach(inp=>{
+    inp.onclick=e=>e.stopPropagation();
+    inp.onchange=()=>{
+      const n=inp.dataset.wt, w=+inp.dataset.w, v=parseFloat(inp.value);
+      if(!S.wt)S.wt={}; if(!S.wt[n])S.wt[n]={};
+      if(isNaN(v)||v<=0)delete S.wt[n][w]; else S.wt[n][w]=v;
+      save();
+      document.querySelectorAll('.wt-row input').forEach(o=>{if(o!==inp&&o.dataset.wt===n&&+o.dataset.w===w)o.value=inp.value;});
+      renderRecord();
+    };
+  });
   root.querySelectorAll('.set-box').forEach(btn=>{
     btn.onclick=e=>{
       e.stopPropagation();
@@ -770,6 +870,14 @@ function renderToday(){
   $("swapBar").innerHTML = (swapFrom&&swapFrom.w===t.w)
     ? `<div class="cap" style="width:100%">Moving \u201c${workoutAt(t.w,swapFrom.slot).title}\u201d \u2014 tap the day it moves to.<small>Tap it again to cancel.</small></div>` : "";
   $("raceLine").textContent=(S.race||"Race day")+" · "+raceDate().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  const dl=Math.ceil((raceDate()-new Date())/864e5);
+  $("dramaLine").textContent=stats().raceDone?"13.1. Done. Legend."
+    :dl<=0?"Race day. This is it."
+    :dl===1?"Tomorrow. Lay out the kit. Sleep."
+    :dl<=7?dl+" days. The taper is working. Trust it."
+    :dl<=28?dl+" days. The work is going in the bank."
+    :dl+" days. One run at a time.";
+  $("countdown").classList.toggle("pulse",dl<=7&&dl>0);
 }
 
 function dayRow(w,slot,isToday){
@@ -883,12 +991,99 @@ function openHero(k){
 }
 $("modal").onclick=e=>{if(e.target.id==="modal")$("modal").classList.remove("on")};
 
+const BADGES=[
+  ["\ud83e\udd47","First blood","Finish your first mission",s=>s.done>=1],
+  ["\ud83c\udfcb\ufe0f","Iron Lizzie","Finish 10 lifts",s=>s.lifts>=10],
+  ["\ud83d\udcc6","Saturday regular","Finish 5 Saturday lifts",s=>s.satLifts>=5],
+  ["\u2b50","Perfect week","Finish every workout in a week",s=>s.perfect],
+  ["\ud83d\udedf","Pocket rescue","Use a rescue mission",s=>s.rescues>=1],
+  ["\ud83d\udd1f","Double digits","Run 10+ miles in one go",s=>s.longMax>=10],
+  ["\ud83d\udee3\ufe0f","50 club","Log 50 total miles",s=>s.miles>=50],
+  ["\ud83c\udf19","Month crusher","Hit a month's mile and lift goals",s=>monthGoals().some(g=>g.won)],
+  ["\ud83d\udcd3","Heavy hitter","Log weights on 5 exercises",s=>s.wtCount>=5]
+];
+/* ---- monthly goals: each calendar month's target is whatever the plan schedules in it ---- */
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function monthGoals(){
+  const m={};
+  PLAN.forEach((wk,w)=>wk.forEach(day=>{
+    const dt=dayDate(w,day.d), k=dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0");
+    const g=m[k]||(m[k]={key:k,label:MONTHS[dt.getMonth()],miles:0,lifts:0,dMiles:0,dLifts:0});
+    const dn=isDone(w,day.d);
+    g.miles+=day.mi; if(dn)g.dMiles+=day.mi;
+    if(day.type==="strength"){g.lifts++; if(dn)g.dLifts++;}
+  }));
+  return Object.keys(m).sort().map(k=>{
+    const g=m[k]; g.miles=Math.round(g.miles*10)/10; g.dMiles=Math.round(g.dMiles*10)/10;
+    g.won=g.miles>0&&g.dMiles>=g.miles&&g.dLifts>=g.lifts; return g;
+  });
+}
+function currentMonth(gs){
+  const n=new Date(), k=n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0");
+  return gs.find(g=>g.key===k)||(k<gs[0].key?gs[0]:gs[gs.length-1]);
+}
+function goalLines(g){
+  const pm=g.miles?Math.min(100,g.dMiles/g.miles*100):0, pl=g.lifts?Math.min(100,g.dLifts/g.lifts*100):0;
+  return `<div class="gline"><span>Miles</span><span>${g.dMiles} / ${g.miles}</span></div><div class="gbar ${pm>=100?"full":""}"><i style="width:${pm}%"></i></div>
+    <div class="gline"><span>Lifts</span><span>${g.dLifts} / ${g.lifts}</span></div><div class="gbar ${pl>=100?"full":""}"><i style="width:${pl}%"></i></div>`;
+}
+function renderMonths(){
+  const gs=monthGoals(), cur=currentMonth(gs);
+  $("monthGoals").innerHTML=gs.map(g=>`<div class="mgoal ${g===cur?"now":""} ${g.won?"won":""}">
+    <h4>${g.label}<em>${g.won?"\u2713 Crushed":g===cur?"This month":""}</em></h4>${goalLines(g)}</div>`).join("");
+  $("monthCard").innerHTML=`<div class="mgoal ${cur.won?"won":"now"}" style="margin-top:14px"><h4>${cur.label} goals<em>${cur.won?"\u2713 Crushed":""}</em></h4>${goalLines(cur)}</div>`;
+}
+function renderBadges(s){
+  const got=BADGES.filter(b=>b[3](s)).length;
+  $("badgeCount").textContent=got+" / "+BADGES.length+" earned";
+  $("badges").innerHTML=BADGES.map(b=>`<div class="badge ${b[3](s)?"":"lock"}"><i>${b[0]}</i><div><b>${b[1]}</b><span>${b[2]}</span></div></div>`).join("");
+}
+function renderLiftLog(){
+  const rows=Object.keys(S.wt||{}).map(n=>{
+    const m=S.wt[n], ks=Object.keys(m).map(Number).sort((a,b)=>a-b);
+    return ks.length?{n,first:m[ks[0]],last:m[ks[ks.length-1]]}:null;
+  }).filter(Boolean);
+  $("liftLog").innerHTML=rows.length?rows.map(r=>{
+    const d=r.last-r.first;
+    return `<div class="logrow"><span>${r.n}</span><b>${r.first===r.last?r.last+" lb":r.first+" \u2192 "+r.last+" lb"}${d>0?" (+"+d+")":""}</b></div>`;
+  }).join(""):`<div class="cap r">Log a weight on any lift day and it shows up here.</div>`;
+}
+function recapData(){
+  const w=Math.min(11,todayIndex().w), wk=PLAN[w], s=stats();
+  const runs=wk.filter(d=>["easy","long","race"].includes(d.type)), lifts=wk.filter(d=>d.type==="strength");
+  const dn=a=>a.filter(d=>isDone(w,d.d)).length;
+  const work=wk.filter(d=>d.type!=="rest"), pct=work.length?dn(work)/work.length:0;
+  const planned=Math.round(wk.reduce((a,d)=>a+d.mi,0)*10)/10;
+  const xp=wk.filter(d=>isDone(w,d.d)).reduce((a,d)=>a+d.xp,0);
+  const verdict=pct>=1?"Flawless. Weezer is writing this one on the fridge."
+    :pct>=.7?"Solid week. The kind that wins races."
+    :pct>0?"Some of it counts, and some of it counts a lot. Next week."
+    :"A clean slate. Day one is the only hard one.";
+  return {w,runs:dn(runs)+" / "+runs.length,lifts:dn(lifts)+" / "+lifts.length,
+    miles:(Math.round(s.perWeek[w]*10)/10)+" / "+planned,xp,verdict};
+}
+function renderRecap(){
+  const r=recapData();
+  $("recapWk").textContent="Week "+(r.w+1)+" of 12";
+  $("recap").innerHTML=`<h4>Week ${r.w+1} recap</h4>
+    <div class="rrow"><b>Runs</b><span>${r.runs}</span></div>
+    <div class="rrow"><b>Lifts</b><span>${r.lifts}</span></div>
+    <div class="rrow"><b>Miles</b><span>${r.miles}</span></div>
+    <div class="rrow"><b>XP earned</b><span>+${r.xp}</span></div>
+    <div class="cap">${r.verdict}</div>
+    <button class="do" id="shareBtn" style="width:100%">Share recap</button>`;
+  $("shareBtn").onclick=async()=>{
+    const t=`Super Weezer \u00b7 Week ${r.w+1}: ${r.runs} runs, ${r.lifts} lifts, ${r.miles} miles. ${r.verdict}`;
+    try{ if(navigator.share) await navigator.share({text:t}); else {await navigator.clipboard.writeText(t);$("shareBtn").textContent="Copied!";} }catch(e){}
+  };
+}
 function renderRecord(){
   const s=stats();
   $("sMiles").textContent=Math.round(s.miles);
   $("sMissions").textContent=s.done;
   $("sLongest").textContent=s.longMax;
-  $("sStreak").textContent=s.streak||0;
+  $("sStreak").textContent=(s.streak?"\ud83d\udd25 ":"")+(s.streak||0);
+  renderRecap(s);renderBadges(s);renderLiftLog();renderMonths();
   const max=Math.max(...s.perWeek,13.1);
   $("bars").innerHTML=s.perWeek.map(m=>`<div class="${m?"on":""}" style="height:${Math.max(4,m/max*100)}%"></div>`).join("");
   $("startInput").value=S.start||defaultStart();
@@ -896,17 +1091,104 @@ function renderRecord(){
   $("raceEcho").textContent=raceDate().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
 }
 
-function renderAll(){renderHeader();renderToday();renderPlan();renderSquad();renderRecord();}
+function renderAll(){renderMonths();renderHeader();renderToday();renderPlan();renderSquad();renderRecord();}
 
 /* ============ actions ============ */
 function toggle(w,d){
-  const k=key(w,d), before=SQUAD_ORDER.filter(unlocked);
-  if(S.done[k]) delete S.done[k]; else {S.done[k]=true; burst(PLAN[w][d]);}
+  const k=key(w,d), b=snap(), day=PLAN[w][d];
+  if(S.done[k]) delete S.done[k]; else {S.done[k]=true; burst(day);}
   save(); rescueMode=false; renderAll();
-  const after=SQUAD_ORDER.filter(unlocked);
-  const gained=after.find(x=>!before.includes(x));
-  if(gained) setTimeout(()=>openHero(gained),900);
+  if(S.done[k]) afterComplete(w,day,b);
 }
+
+/* ---- what happens after a mission is finished: one celebration, in priority order ---- */
+const MILES=[25,50,100,150];
+function snap(){return {heroes:SQUAD_ORDER.filter(unlocked),miles:stats().miles};}
+function afterComplete(w,day,b){
+  if(!day)return;
+  if(day.type==="race"){setTimeout(openFinale,1000);return;}
+  const gained=SQUAD_ORDER.filter(unlocked).find(x=>!b.heroes.includes(x));
+  if(gained){setTimeout(()=>openHero(gained),900);return;}
+  const mi=stats().miles, seen=S.ms||[];
+  const crossed=MILES.filter(n=>b.miles<n&&mi>=n&&!seen.includes(n));
+  if(crossed.length){S.ms=[...seen,...crossed];save();setTimeout(()=>openMilestone(crossed[crossed.length-1]),900);return;}
+  const won=monthGoals().find(g=>g.won&&!(S.mc||[]).includes(g.key));
+  if(won){S.mc=[...(S.mc||[]),won.key];save();setTimeout(()=>openMonthWon(won),900);return;}
+  if(day.type==="easy"||day.type==="long")setTimeout(()=>openFeel(w,day),900);
+}
+function sheetOpen(html){
+  $("sheet").innerHTML=html;
+  $("modal").classList.add("on");
+  const x=$("closeX"); if(x)x.onclick=()=>$("modal").classList.remove("on");
+}
+const MILE_ART={25:"trail",50:"speedster",100:"agent",150:"heart"};
+const MILE_LINE={25:"Twenty-five miles. That's a marathon's worth of showing up, minus one.",
+  50:"Fifty miles. The squad is officially impressed. Weezer is mostly asleep, but impressed.",
+  100:"One hundred miles. Triple digits. Nobody who started this on October 26th is the same person.",
+  150:"One-fifty. You've run further than most people drive to work in a month."};
+function openMilestone(m){
+  sheetOpen(`<div class="top"><img src="${ART[MILE_ART[m]]}" alt=""><button class="x" id="closeX">\u2715</button></div>
+    <div class="body"><div class="eyebrow">Milestone unlocked</div><h2>${m} miles</h2>
+    <div class="cap" style="margin:12px 0 14px">${MILE_LINE[m]}</div></div>`);
+  burst({type:"race"});
+}
+function openMonthWon(g){
+  sheetOpen(`<div class="top"><img src="${ART.agent}" alt=""><button class="x" id="closeX">\u2715</button></div>
+    <div class="body"><div class="eyebrow">Month crusher</div><h2>${g.label}: done</h2>
+    <div class="drow"><b>Miles</b><span>${g.dMiles} of ${g.miles}</span></div>
+    <div class="drow"><b>Lifts</b><span>${g.dLifts} of ${g.lifts}</span></div>
+    <div class="cap" style="margin:14px 0">Every mile. Every lift. Weezer is updating the fridge.</div></div>`);
+  burst({type:"race"});
+}
+const FEEL=[["\ud83d\ude35","Rough","Rough ones count double. Eat something. Weezer is proud."],
+  ["\ud83d\ude10","Meh","Meh miles are still miles. Banked."],
+  ["\ud83d\ude42","Good","Good. Boring. Exactly the plan."],
+  ["\ud83d\udd25","Great","Don't tell the legs, but you're getting fast. Allegedly."]];
+function openFeel(w,day){
+  const k=key(w,day.d), cur=(S.feel||{})[k];
+  sheetOpen(`<div class="body" style="padding-top:20px"><div class="eyebrow">Debrief</div><h2>How'd it feel?</h2>
+    <div class="feel">${FEEL.map((f,i)=>`<button data-f="${i}" class="${cur===i?"on":""}"><em>${f[0]}</em>${f[1]}</button>`).join("")}</div>
+    <div class="cap" id="feelLine">Tell Weezer. He's listening. Mostly.</div>
+    <button class="ghost" id="feelX" style="margin-bottom:14px">Skip</button></div>`);
+  $("sheet").querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.f; S.feel=Object.assign({},S.feel||{},{[k]:i}); save();
+    $("sheet").querySelectorAll("[data-f]").forEach(o=>o.classList.toggle("on",o===b));
+    $("feelLine").textContent=FEEL[i][2]; $("feelX").textContent="Done";
+  });
+  $("feelX").onclick=()=>$("modal").classList.remove("on");
+}
+function openFinale(){
+  const s=stats();
+  sheetOpen(`<div class="top"><img src="${ART.heart}" alt=""><button class="x" id="closeX">\u2715</button></div>
+    <div class="body"><div class="eyebrow">Finisher</div><h2>13.1 miles. Done.</h2>
+    <div class="drow"><b>Race</b><span>${S.race||"Half Marathon"}</span></div>
+    <div class="drow"><b>Miles</b><span>${Math.round(s.miles)} logged over 12 weeks</span></div>
+    <div class="drow"><b>Missions</b><span>${s.done} of ${s.total}</span></div>
+    <div class="drow"><b>Rank</b><span>${rank(s.xp)} \u00b7 ${s.xp} XP</span></div>
+    <div class="cap" style="margin:14px 0">Not all heroes wear capes. Some have short legs, a lot of courage, and a very patient human.<small>The Little Hero will be at the finish line. Horizontal.</small></div></div>`);
+  burst({type:"race"});
+}
+
+/* ---- rest timer between sets ---- */
+let restT=null,restEnd=0;
+const REST_END=["Back under the bar.","Time. Go be strong.","Next set. Weezer's watching.","Rest is over. Lift."];
+function startRest(sec){
+  restEnd=Date.now()+sec*1000;
+  $("rest").classList.remove("over");$("rest").classList.add("on");
+  clearInterval(restT);restT=setInterval(tickRest,250);tickRest();
+}
+function tickRest(){
+  const left=Math.ceil((restEnd-Date.now())/1000);
+  if(left>0){$("restT").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");$("restL").textContent="Rest";return;}
+  clearInterval(restT);restT=null;
+  $("restT").textContent="GO";$("restL").textContent=REST_END[Math.floor(Math.random()*REST_END.length)];
+  $("rest").classList.add("over");
+  if(navigator.vibrate)navigator.vibrate([200,100,200]);
+  setTimeout(()=>{if(!restT)hideRest();},6000);
+}
+function hideRest(){clearInterval(restT);restT=null;$("rest").classList.remove("on","over");}
+$("restX").onclick=hideRest;
+$("restAdd").onclick=()=>{if(restT){restEnd+=15000;tickRest();}else startRest(15);};
 $("doBtn").onclick=()=>{const t=todayIndex();toggle(t.w,workoutAt(t.w,t.d).d);};
 $("swapToday").onclick=()=>{const t=todayIndex();armSwap(t.w,t.d);
   if(swapFrom)$("weekList").scrollIntoView({behavior:"smooth",block:"start"});};
@@ -919,7 +1201,7 @@ $("pPrev").onclick=()=>{pWeek=(pWeek+11)%12;renderPlan();};
 $("pNext").onclick=()=>{pWeek=(pWeek+1)%12;renderPlan();};
 $("startInput").onchange=e=>{S.start=e.target.value;save();renderAll();};
 $("raceInput").oninput=e=>{S.race=e.target.value;save();$("raceEcho").textContent=raceDate().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});};
-$("resetBtn").onclick=()=>{if(confirm("Erase every completed mission and start the saga over?")){S={start:S.start,race:S.race,done:{},rescues:0,seen:[]};save();renderAll();}};
+$("resetBtn").onclick=()=>{if(confirm("Erase every completed mission and start the saga over?")){S={v:3,start:S.start,race:S.race,done:{},sets:{},rescues:0,seen:[]};save();renderAll();}};
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
