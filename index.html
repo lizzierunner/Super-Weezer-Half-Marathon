@@ -297,6 +297,27 @@ nav button.on em{filter:none}
 .feel button{border:2px solid var(--line);padding:10px 2px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
 .feel button em{display:block;font-style:normal;font-size:30px;margin-bottom:3px}
 .feel button.on{border-color:var(--gold);color:var(--gold)}
+/* ---------- lift mode: one exercise at a time ---------- */
+#lm{position:fixed;inset:0;z-index:75;background:var(--ink);overflow-y:auto;display:none}
+#lm.on{display:block}
+#lm .in{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:14px 18px calc(24px + env(safe-area-inset-bottom))}
+#lm .bar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#lm .bar button{border:2px solid var(--line);width:40px;height:40px;font-size:16px}
+#lm .segs{display:flex;gap:4px;margin:12px 0 4px}
+#lm .segs i{flex:1;height:7px;background:#0B0A0F;border:1.5px solid var(--line)}
+#lm .segs i.done{background:var(--green);border-color:var(--green)}
+#lm .segs i.cur{border-color:var(--gold)}
+#lm .mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 0}
+#lm h2{font-family:'Anton';font-size:clamp(30px,9vw,46px);line-height:1.02;text-transform:uppercase;color:#fff;margin:6px 0 10px}
+#lm .big{font-family:'Anton';font-size:22px;color:var(--gold);letter-spacing:.05em;margin:4px 0 16px}
+#lm .lift-sets{gap:10px}
+#lm .set-box{width:70px;height:70px;font-size:26px;border-width:3px}
+#lm .wt-row{margin-top:20px;font-size:12px}
+#lm .wt-row input{width:96px;font-size:20px;padding:8px}
+#lm .nav2{display:flex;gap:10px;margin-top:10px}
+#lm .nav2 .ghost{flex:0 0 34%;margin-top:0}
+#lm .nav2 .do{flex:1}
+#lm .nav2 .do.pulse{animation:throb2 1s ease-in-out infinite}
 .mgoal{background:var(--panel);border:2px solid var(--line);padding:12px 14px;margin-bottom:10px}
 .mgoal.now{border-color:var(--gold)}
 .mgoal.won{border-color:var(--green)}
@@ -543,7 +564,7 @@ const SQUAD={
     unlock:()=>true,req:"Here from day one.",
     lines:["Santa Fe Trail. Shade the whole way. You have no excuses and I have no thumbs.",
            "Stay on trail. Leave no trace. Bark softly. Run slow enough to talk.",
-           "Sixty seconds running, thirty walking. Repeat until it's done."]},
+           "Thirty seconds running, thirty walking. Repeat until it's done."]},
   hq:{name:"Weezer HQ",role:"Session 2 lift · single-leg, bench, hinge",beat:"The command center",
     unlock:s=>s.done>=3,req:"Finish 3 missions.",
     lines:["Justice. Treats. Nap. Repeat. In that order.",
@@ -595,7 +616,7 @@ const NOTES=[
  "Twelve weeks. Three runs, three lifts, one rest day. That's the whole deal.",
  "Long run grows by a mile. Everything else stays exactly the same.",
  "Cut-back week. The mileage drops on purpose. Let it.",
- "Seven miles. Hold the 60/30 intervals from the first step, not the fifth mile.",
+ "Seven miles. Hold the 30/30 intervals from the first step, not the fifth mile.",
  "Eight miles unlocks Agent 00-Wiener. Take the walk breaks early.",
  "Second cut-back. You're halfway. Nothing to prove this week.",
  "Nine miles. Start practicing what you'll eat and drink on race day.",
@@ -651,7 +672,7 @@ function buildWeek(w){ // w = 0-indexed
     {d:2,type:"easy",title:pickup?"Easy 30 min + 4 pickups":"Easy 30 min",
       sub:pickup?"60s / 30s, last 4 intervals quick":"60s run / 30s walk",metric:"60/30",label:"Intervals",hero:pickup?"speedster":"trail",mi:2.6,xp:30},
     lift(w,1),
-    {d:4,type:"long",title:L+" mile long run",sub:"60s run / 30s walk \u00b7 9 AM",metric:"60/30",label:"Intervals",hero: L>=8?"agent":"trail",mi:L,xp:Math.round(L*10)},
+    {d:4,type:"long",title:L+" mile long run",sub:"30s run / 30s walk \u00b7 9 AM",metric:"30/30",label:"Intervals",hero: L>=8?"agent":"trail",mi:L,xp:Math.round(L*10)},
     lift(w,2),
     {d:6,type:"rest",title:"Rest \u00b7 walk Weezer",sub:"A slow walk with a short dog. That's the whole job.",metric:"\u2014",label:"Recovery",hero:"wizard",mi:0,xp:10}
   ];
@@ -797,6 +818,50 @@ function bindLiftButtons(root,exs){
     };
   });
 }
+/* ---- lift mode ---- */
+let LM=null;
+function openLiftMode(w,d){
+  const day=PLAN[w].find(x=>x.d===d); if(!day)return;
+  const exs=liftPlan(w,day); if(!exs)return;
+  const first=exs.findIndex((x,ei)=>![...Array(x.sc)].every((_,si)=>isSetDone(w,d,ei,si)));
+  LM={w,d,day,exs,i:first<0?0:first};
+  $("modal").classList.remove("on");
+  let el=$("lm"); if(!el){el=document.createElement("div");el.id="lm";document.body.appendChild(el);}
+  el.classList.add("on"); lmRender();
+}
+function closeLiftMode(){const el=$("lm");if(el)el.classList.remove("on");LM=null;renderAll();}
+function lmExDone(ei){const {w,d,exs}=LM;return [...Array(exs[ei].sc)].every((_,si)=>isSetDone(w,d,ei,si));}
+function lmRender(){
+  const {w,d,day,exs,i}=LM, ex=exs[i], el=$("lm"), last=i===exs.length-1;
+  el.innerHTML=`<div class="in">
+    <div class="bar"><button id="lmX" aria-label="Exit lift mode">\u2715</button>
+      <div class="eyebrow">${SQUAD[day.hero].name} \u00b7 ${i+1} of ${exs.length}</div><div style="width:40px"></div></div>
+    <div class="segs">${exs.map((_,k)=>`<i class="${lmExDone(k)?"done":""} ${k===i?"cur":""}"></i>`).join("")}</div>
+    <div class="mid">
+      <div class="eyebrow">${day.title}</div>
+      <h2>${ex.name}</h2>
+      <div class="big">${ex.sc} \u00d7 ${ex.reps}</div>
+      ${ex.q?`<div class="lift-q" style="font-size:16px;margin:0 0 22px">${ex.q}</div>`:""}
+      <div class="lift-sets">${[...Array(ex.sc)].map((_,si)=>
+        `<button class="set-box${isSetDone(w,d,i,si)?" hit":""}" data-w="${w}" data-d="${d}" data-ei="${i}" data-si="${si}">${si+1}</button>`).join("")}</div>
+      ${ex.q?wtRowHTML(w,ex.name):""}
+    </div>
+    <div class="nav2">
+      <button class="ghost" id="lmBack" ${i===0?"disabled style='opacity:.3'":""}>\u2039 Back</button>
+      <button class="do ${lmExDone(i)?"pulse":""}" id="lmNext">${last?(isDone(w,d)?"\u2713 All done":"Finish"):"Next \u203a"}</button>
+    </div></div>`;
+  $("lmX").onclick=closeLiftMode;
+  $("lmBack").onclick=()=>{if(LM.i>0){LM.i--;lmRender();}};
+  $("lmNext").onclick=()=>{if(LM.i<exs.length-1){LM.i++;lmRender();}else closeLiftMode();};
+  bindLiftButtons(el,exs);
+  el.querySelectorAll(".set-box").forEach(b=>b.addEventListener("click",()=>{
+    if(isDone(w,d)){setTimeout(closeLiftMode,1100);return;}
+    if(lmExDone(LM.i)){
+      $("lmNext").classList.add("pulse");
+      if(LM.i<exs.length-1)setTimeout(()=>{if(LM&&LM.i===i&&lmExDone(i)){LM.i++;lmRender();}},900);
+    }else $("lmNext").classList.remove("pulse");
+  }));
+}
 function openLift(w,d){
   const day=PLAN[w].find(x=>x.d===d); if(!day)return;
   const exs=liftPlan(w,day); if(!exs)return;
@@ -811,6 +876,7 @@ function openLift(w,d){
       </div>
     </div>
     <div class="body">
+      <button class="do" id="lmStart" style="width:100%;margin-top:4px">Lift mode \u00b7 one at a time</button>
       <div class="lift-list">${liftInnerHTML(w,d,exs)}</div>
       <button class="do${isDone(w,d)?' done':''}" id="liftDoneBtn" style="width:100%;margin-top:8px">
         ${isDone(w,d)?'\u2713 Mission complete':'Mark it done'}
@@ -819,6 +885,7 @@ function openLift(w,d){
   $('modal').classList.add('on');
   $('closeX').onclick=()=>$('modal').classList.remove('on');
   bindLiftButtons($('sheet'),exs);
+  $('lmStart').onclick=()=>openLiftMode(w,d);
   $('liftDoneBtn').onclick=()=>{toggle(w,d);$('modal').classList.remove('on');};
 }
 
@@ -855,8 +922,9 @@ function renderToday(){
   if(liftEl){
     const exs=liftPlan(t.w,day);
     if(exs&&!rescueMode){
-      liftEl.innerHTML='<div class="lift-list">'+liftInnerHTML(t.w,day.d,exs)+'</div>';
+      liftEl.innerHTML='<button class="do" id="lmTodayBtn" style="width:100%;margin-top:10px">Lift mode \u00b7 one at a time</button><div class="lift-list">'+liftInnerHTML(t.w,day.d,exs)+'</div>';
       bindLiftButtons(liftEl,exs);
+      $("lmTodayBtn").onclick=()=>openLiftMode(t.w,day.d);
     }else{liftEl.innerHTML='';}
   }
   const done=isDone(t.w,t.d);
