@@ -412,7 +412,7 @@ nav button.on em{filter:none}
     <div class="sect"><h3>This week</h3><div class="eyebrow" id="weekFocus">Base building</div></div>
     <div id="swapBar"></div>
     <div id="weekList"></div>
-    <div class="cap r" style="margin-top:10px">Runs Mon / Wed · Long run Fri · Lift Tue / Thu<small>Tap ⇄ on any day to move it. Life happens; the week still adds up.</small></div>
+    <div class="cap r" style="margin-top:10px">Runs Mon / Wed · Long run Fri · Lift Tue / Thu / Sat<small>Tap ⇄ on any day to move it. Life happens; the week still adds up.</small></div>
   </div>
 </section>
 
@@ -484,12 +484,12 @@ const SQUAD={
     lines:["Santa Fe Trail. Shade the whole way. You have no excuses and I have no thumbs.",
            "Stay on trail. Leave no trace. Bark softly. Run slow enough to talk.",
            "Sixty seconds running, thirty walking. Repeat until it's done."]},
-  hq:{name:"Weezer HQ",role:"Thursday lift · push, pull, core",beat:"The command center",
+  hq:{name:"Weezer HQ",role:"Session 2 lift · single-leg, bench, hinge",beat:"The command center",
     unlock:s=>s.done>=3,req:"Finish 3 missions.",
     lines:["Justice. Treats. Nap. Repeat. In that order.",
            "Press it overhead, pull it to your ribs, hold the plank. Boring works.",
            "Fuel up. The upper body doesn't run the race. It holds you up at mile 11."]},
-  captain:{name:"Captain Weezer",role:"Tuesday lift · legs and glutes",beat:"The garage gym",
+  captain:{name:"Captain Weezer",role:"Session 1 lift · squat, press, pull",beat:"The garage gym",
     unlock:s=>s.done>=8,req:"Finish 8 missions.",
     lines:["The Vacuum Monster lives in this garage. Lift anyway.",
            "Strong glutes are the shield. Load the bar.",
@@ -532,7 +532,7 @@ const LONGS=[5,6,4,7,8,5,9,10,6,11,13,0];
 const FOCUS=["Base building","Build","Recovery week","Build","Build","Recovery week",
              "Build","Peak block","Recovery week","Peak block","Peak long run","Taper · race week"];
 const NOTES=[
- "Twelve weeks. Three runs, two lifts, two rest days. That's the whole deal.",
+ "Twelve weeks. Three runs, three lifts, one rest day. That's the whole deal.",
  "Long run grows by a mile. Everything else stays exactly the same.",
  "Cut-back week. The mileage drops on purpose. Let it.",
  "Seven miles. Hold the 60/30 intervals from the first step, not the fifth mile.",
@@ -547,10 +547,18 @@ const NOTES=[
 ];
 const DAYNAME=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
+/* two sessions from Running for Women, alternating Tue/Thu/Sat: 1-2-1, then 2-1-2 */
+const SESSIONS=[
+  {title:"Session 1 \u00b7 Squat, press + pull",hero:"captain",ex:["Barbell squat","Dumbbell incline press","One-leg dumbbell Russian deadlift (each side)","Pull-ups","Dumbbell step-up","Tri-pushdown","Back extension","Crunches"]},
+  {title:"Session 2 \u00b7 Single-leg, bench + hinge",hero:"hq",ex:["One-leg squat (each side)","Dumbbell bench press","Russian deadlift (barbell)","Chin-ups","Dumbbell lunge","Dumbbell bicep curl","Superman","Medicine ball twist"]}
+];
+function sessOf(w,n){return (w*3+n)%2;}
+function lift(w,n){
+  const k=sessOf(w,n), S1=SESSIONS[k];
+  return {d:1+2*n,type:"strength",sess:k,title:S1.title,sub:"8 exercises \u00b7 3\u00d712 each",metric:"3\u00d712",label:"Sets",hero:S1.hero,mi:0,xp:30};
+}
 function buildWeek(w){ // w = 0-indexed
   const L=LONGS[w], last=(w===11);
-  const sets = w<3?"3\u00d710" : w<8?"4\u00d76" : w<11?"3\u00d75" : "2\u00d78";
-  const phase = w<3?"Foundation" : w<8?"Build heavy" : w<11?"Hold the strength" : "Deload";
   if(last) return [
     {d:0,type:"easy",title:"Easy 20 min",sub:"60s run / 30s walk",metric:"60/30",label:"Intervals",hero:"hq",mi:1.7,xp:25},
     {d:1,type:"strength",title:"Mobility + light lift",sub:"Bodyweight only. Nothing heavy this week.",metric:"2\u00d78",label:"Sets",hero:"captain",mi:0,xp:25},
@@ -563,13 +571,13 @@ function buildWeek(w){ // w = 0-indexed
   const pickup = w>=4;
   return [
     {d:0,type:"easy",title:"Easy 30 min",sub:"60s run / 30s walk \u00b7 9 AM",metric:"60/30",label:"Intervals",hero: w>=5?"dark":"hq",mi:2.6,xp:25},
-    {d:1,type:"strength",title:"Legs + glutes",sub:"Back squat \u00b7 split squat \u00b7 hip thrust \u00b7 calf raise",metric:sets,label:phase,hero:"captain",mi:0,xp:30},
+    lift(w,0),
     {d:2,type:"easy",title:pickup?"Easy 30 min + 4 pickups":"Easy 30 min",
       sub:pickup?"60s / 30s, last 4 intervals quick":"60s run / 30s walk",metric:"60/30",label:"Intervals",hero:pickup?"speedster":"trail",mi:2.6,xp:30},
-    {d:3,type:"strength",title:"Push, pull + core",sub:"Overhead press \u00b7 row \u00b7 Romanian deadlift \u00b7 plank",metric:sets,label:phase,hero:"hq",mi:0,xp:30},
+    lift(w,1),
     {d:4,type:"long",title:L+" mile long run",sub:"60s run / 30s walk \u00b7 9 AM",metric:"60/30",label:"Intervals",hero: L>=8?"agent":"trail",mi:L,xp:Math.round(L*10)},
-    {d:5,type:"rest",title:"Rest \u00b7 walk Weezer",sub:"A slow walk with a short dog. That's the whole job.",metric:"\u2014",label:"Recovery",hero:"wizard",mi:0,xp:10},
-    {d:6,type:"rest",title:"Rest",sub:"Full stop. This is training too.",metric:"\u2014",label:"Recovery",hero:"wizard",mi:0,xp:10}
+    lift(w,2),
+    {d:6,type:"rest",title:"Rest \u00b7 walk Weezer",sub:"A slow walk with a short dog. That's the whole job.",metric:"\u2014",label:"Recovery",hero:"wizard",mi:0,xp:10}
   ];
 }
 const PLAN=[...Array(12)].map((_,i)=>buildWeek(i));
@@ -590,7 +598,7 @@ const KEY="superweezer:v1";
 let S={start:null,race:"Virtual Half Marathon",done:{},sets:{},rescues:0,seen:[]};
 
 function defaultStart(){
-  return "2026-08-10"; // Monday · week 1 of the saga
+  return "2026-10-26"; // Monday · week 1 of the saga
 }
 function startDate(){const p=(S.start||defaultStart()).split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
 function dayDate(w,d){const x=startDate();x.setDate(x.getDate()+w*7+d);return x;}
@@ -637,16 +645,7 @@ function liftPlan(w,day){
     {name:'Bodyweight squat',sc:2,reps:'8'},{name:'Hip hinge',sc:2,reps:'8'},
     {name:'Push-up',sc:2,reps:'8'},{name:'Plank',sc:2,reps:'30s'},
   ];
-  const sc=w<3?3:w<8?4:3, reps=w<3?'10':w<8?'6':'5';
-  if(day.hero==='captain')return[
-    {name:'Back squat',sc,reps},{name:'Split squat',sc,reps},
-    {name:'Hip thrust',sc,reps:w<3?'12':'8'},{name:'Calf raise',sc,reps:w<3?'15':'12'},
-  ];
-  return[
-    {name:'Overhead press',sc,reps},{name:'Bent-over row',sc,reps},
-    {name:'Romanian deadlift',sc,reps},
-    {name:'Plank',sc,reps:w<3?'30s':w<8?'40s':'45s'},
-  ];
+  return SESSIONS[day.sess].ex.map(name=>({name,sc:3,reps:'12'}));
 }
 function setsKey(w,d,ei,si){return w+':'+d+':'+ei+':'+si;}
 function isSetDone(w,d,ei,si){return!!(S.sets&&S.sets[setsKey(w,d,ei,si)]);}
@@ -962,17 +961,10 @@ function save(){Store.set(KEY,JSON.stringify(S));}
 (async()=>{
   const raw=await Store.get(KEY);
   if(raw){try{S=Object.assign(S,JSON.parse(raw));}catch(e){}}
-  if(S.v!==2){ // long run moved Wed -> Fri; ticks follow the workout, not the square
-    const nd={};
-    Object.keys(S.done||{}).forEach(k=>{
-      const p=k.split("-").map(Number), w=p[0], d=p[1];
-      nd[w+"-"+((w<11&&d===2)?4:(w<11&&d===4)?2:d)]=true;
-    });
-    S.done=nd;
-    if(S.perm)Object.keys(S.perm).forEach(w=>{
-      if(+w<11)S.perm[w]=S.perm[w].map(x=>x===2?4:x===4?2:x);
-    });
-    S.v=2;
+  if(S.v!==3){ // plan restarted Oct 26 with a Saturday lift: wipe old progress
+    S.done={};S.sets={};S.perm=null;S.rescues=0;S.seen=[];
+    S.start=defaultStart();
+    S.v=3;
   }
   if(!S.start)S.start=defaultStart();
   pWeek=todayIndex().w;
