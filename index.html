@@ -262,6 +262,75 @@ nav button.on em{filter:none}
 .lift-reps{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.5;font-weight:600;margin-left:4px}
 .sets-prog{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.65;font-weight:600;margin-top:3px}
 
+
+/* ---------- fun stuff: quips, weights, rest timer, badges, recap ---------- */
+.lift-q{font-size:12.5px;font-style:italic;opacity:.6;margin:-3px 0 8px;line-height:1.3}
+.wt-row{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;opacity:.8}
+.wt-row input{width:72px;background:#0B0A0F;border:1.5px solid var(--line);color:var(--gold);font-family:'Anton';font-size:15px;padding:5px 7px;text-align:center}
+.wt-row input:focus{border-color:var(--gold);outline:0}
+.wt-row small{opacity:.65}
+#rest{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;pointer-events:none;
+  z-index:90;display:flex;align-items:center;gap:12px;background:#0B0A0F;border:2.5px solid var(--gold);padding:8px 10px 8px 14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.7);transition:transform .25s,opacity .25s;max-width:94vw}
+#rest.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+#rest b{font-family:'Anton';font-size:26px;color:var(--gold);min-width:52px;text-align:center}
+#rest span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+#rest button{border:1.5px solid var(--line);padding:6px 9px;font-size:12px;font-weight:700;color:#cfc6b4}
+#rest.over{border-color:var(--red);animation:throb .5s ease 3}
+#rest.over b{color:var(--red)}
+@keyframes throb{50%{transform:translate(-50%,-4px) scale(1.05)}}
+.count.pulse div{border-color:var(--gold);animation:throb2 1.6s ease-in-out infinite}
+@keyframes throb2{50%{background:#2a2112}}
+.badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.badge{display:flex;gap:10px;align-items:center;background:var(--panel);border:2px solid var(--gold);padding:10px}
+.badge i{font-style:normal;font-size:26px}
+.badge b{display:block;font-family:'Anton';font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.badge span{font-size:11.5px;opacity:.7;line-height:1.25;display:block}
+.badge.lock{border-color:var(--line);opacity:.5}
+.badge.lock i{filter:grayscale(1)}.badge.lock b{color:#9a9184}
+.recap{background:var(--panel);border:2px solid var(--gold);padding:14px}
+.recap h4{font-family:'Anton';font-size:24px;text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px}
+.recap .rrow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:15px}
+.recap .rrow b{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.recap .cap{margin:12px 0 10px}
+.feel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.feel button{border:2px solid var(--line);padding:10px 2px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.feel button em{display:block;font-style:normal;font-size:30px;margin-bottom:3px}
+.feel button.on{border-color:var(--gold);color:var(--gold)}
+/* ---------- lift mode: one exercise at a time ---------- */
+#lm{position:fixed;inset:0;z-index:75;background:var(--ink);overflow-y:auto;display:none}
+#lm.on{display:block}
+#lm .in{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:14px 18px calc(24px + env(safe-area-inset-bottom))}
+#lm .bar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#lm .bar button{border:2px solid var(--line);width:40px;height:40px;font-size:16px}
+#lm .segs{display:flex;gap:4px;margin:12px 0 4px}
+#lm .segs i{flex:1;height:7px;background:#0B0A0F;border:1.5px solid var(--line)}
+#lm .segs i.done{background:var(--green);border-color:var(--green)}
+#lm .segs i.cur{border-color:var(--gold)}
+#lm .mid{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 0}
+#lm h2{font-family:'Anton';font-size:clamp(30px,9vw,46px);line-height:1.02;text-transform:uppercase;color:#fff;margin:6px 0 10px}
+#lm .big{font-family:'Anton';font-size:22px;color:var(--gold);letter-spacing:.05em;margin:4px 0 16px}
+#lm .lift-sets{gap:10px}
+#lm .set-box{width:70px;height:70px;font-size:26px;border-width:3px}
+#lm .wt-row{margin-top:20px;font-size:12px}
+#lm .wt-row input{width:96px;font-size:20px;padding:8px}
+#lm .nav2{display:flex;gap:10px;margin-top:10px}
+#lm .nav2 .ghost{flex:0 0 34%;margin-top:0}
+#lm .nav2 .do{flex:1}
+#lm .nav2 .do.pulse{animation:throb2 1s ease-in-out infinite}
+.mgoal{background:var(--panel);border:2px solid var(--line);padding:12px 14px;margin-bottom:10px}
+.mgoal.now{border-color:var(--gold)}
+.mgoal.won{border-color:var(--green)}
+.mgoal h4{font-family:'Anton';font-size:20px;text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.mgoal h4 em{font-style:normal;font-size:11.5px;letter-spacing:.15em;color:var(--gold);font-family:inherit;font-weight:700;align-self:center}
+.gline{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:6px}
+.gline span:last-child{color:var(--gold);font-family:'Anton';letter-spacing:.05em;font-size:14px}
+.gbar{height:9px;background:#0B0A0F;border:1.5px solid var(--line);margin-top:4px}
+.gbar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));transition:width .6s}
+.gbar.full i{background:var(--green)}
+.logrow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.logrow b{color:var(--gold);font-family:'Anton';font-weight:400;white-space:nowrap}
+
 /* =============================================
    RESPONSIVE: TABLET + DESKTOP
    ============================================= */
@@ -408,7 +477,9 @@ nav button.on em{filter:none}
       <div><b>--</b><span>Min</span></div><div><b>--</b><span>Sec</span></div>
     </div>
     <div class="eyebrow" id="raceLine" style="text-align:center;margin-bottom:4px">Race day</div>
+    <div class="cap r" id="dramaLine" style="text-align:center;margin-bottom:6px"></div>
 
+    <div id="monthCard"></div>
     <div class="sect"><h3>This week</h3><div class="eyebrow" id="weekFocus">Base building</div></div>
     <div id="swapBar"></div>
     <div id="weekList"></div>
@@ -439,6 +510,8 @@ nav button.on em{filter:none}
 
 <!-- ---------------- RECORD ---------------- -->
 <section class="tab" id="tab-record">
+  <div class="sect"><h3>Weekly recap</h3><div class="eyebrow" id="recapWk">Week 1</div></div>
+  <div class="recap" id="recap"></div>
   <div class="sect"><h3>The record</h3></div>
   <div class="grid2">
     <div class="box"><b id="sMiles">0</b><span>Miles logged</span></div>
@@ -448,6 +521,13 @@ nav button.on em{filter:none}
   </div>
   <div class="sect"><h3>Weekly mileage</h3><div class="eyebrow">Completed only</div></div>
   <div class="bars" id="bars"></div>
+
+  <div class="sect"><h3>Monthly goals</h3><div class="eyebrow">Set by the plan</div></div>
+  <div id="monthGoals"></div>
+  <div class="sect"><h3>Badges</h3><div class="eyebrow" id="badgeCount">0 earned</div></div>
+  <div class="badges" id="badges"></div>
+  <div class="sect"><h3>Lift log</h3><div class="eyebrow">Heaviest logged, first to latest</div></div>
+  <div id="liftLog"></div>
 
   <div class="sect"><h3>Settings</h3></div>
   <label class="field"><span>Training starts (a Monday)</span><input type="date" id="startInput"></label>
@@ -467,6 +547,7 @@ nav button.on em{filter:none}
 </nav>
 
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<div id="rest"><b id="restT">1:00</b><span id="restL">Rest</span><button id="restAdd">+15s</button><button id="restX" aria-label="Dismiss timer">\u2715</button></div>
 <div id="fx"><div class="pow">POW!</div></div>
 
 <script>
@@ -483,13 +564,13 @@ const SQUAD={
     unlock:()=>true,req:"Here from day one.",
     lines:["Santa Fe Trail. Shade the whole way. You have no excuses and I have no thumbs.",
            "Stay on trail. Leave no trace. Bark softly. Run slow enough to talk.",
-           "Sixty seconds running, thirty walking. Repeat until it's done."]},
-  hq:{name:"Weezer HQ",role:"Wednesday lift · push, pull, core",beat:"The command center",
+           "Thirty seconds running, thirty walking. Repeat until it's done."]},
+  hq:{name:"Weezer HQ",role:"Session 2 lift · single-leg, bench, hinge",beat:"The command center",
     unlock:s=>s.done>=3,req:"Finish 3 missions.",
     lines:["Justice. Treats. Nap. Repeat. In that order.",
            "Press it overhead, pull it to your ribs, hold the plank. Boring works.",
            "Fuel up. The upper body doesn't run the race. It holds you up at mile 11."]},
-  captain:{name:"Captain Weezer",role:"Monday lift · legs and glutes",beat:"The garage gym",
+  captain:{name:"Captain Weezer",role:"Session 1 lift · squat, press, pull",beat:"The garage gym",
     unlock:s=>s.done>=8,req:"Finish 8 missions.",
     lines:["The Vacuum Monster lives in this garage. Lift anyway.",
            "Strong glutes are the shield. Load the bar.",
@@ -499,7 +580,7 @@ const SQUAD={
     lines:["Ten minutes. That's the whole ask. Then you're allowed to quit.",
            "A short run beats a skipped one and it isn't close.",
            "Shoes on. Door open. We'll negotiate the rest outside."]},
-  speedster:{name:"Weezer the Speedster",role:"Intervals and hills",beat:"The fast bits",
+  speedster:{name:"Weezer the Speedster",role:"Pickups and turnover",beat:"The fast bits",
     unlock:s=>s.done>=15,req:"Finish 15 missions.",
     lines:["Faster than a squirrel. Tougher than a chew toy. Your turn.",
            "Last four intervals: run them like the mail truck just pulled up.",
@@ -563,11 +644,32 @@ const quality=(w,d,kind,label,mi,reps,work,zone,rec)=>({d,type:"quality",
   sub:"10 min 60/30 warm-up · "+reps+" × "+work+" hard ("+zone+"), "+rec+" · 10 min 60/30 cooldown",
   metric:reps+"×"+work,label:"Hard reps",hero:"speedster",mi,xp:45});
 const longRun=(w,d,strong)=>{const L=LONGS[w];return{d,type:"long",title:L+" mile long run",
-  sub:WALK+(strong?" · last 10 min strong":""),metric:"60/30",label:"Intervals",
+  sub:"30s run / 30s walk"+(strong?" \u00b7 last 10 min strong":" \u00b7 9 AM"),metric:"30/30",label:"Intervals",
   hero:L>=8?"agent":"trail",mi:L,xp:Math.round(L*10)};};
 const rest=(d,title,sub)=>({d,type:"rest",title:title||"Rest",sub:sub||"Full stop. This is training too.",
   metric:"—",label:"Recovery",hero:"wizard",mi:0,xp:10});
 
+/* two sessions from Running for Women, alternating Tue/Thu/Sat: 1-2-1, then 2-1-2 */
+const SESSIONS=[
+  {title:"Session 1 \u00b7 Squat, press + pull",hero:"captain",ex:[
+    {n:"Barbell squat",q:"Chest up, knees out. Weezer judges depth."},
+    {n:"Dumbbell incline press",q:"Reach for the ceiling. The Vacuum Monster lives up there."},
+    {n:"One-leg dumbbell Russian deadlift (each side)",q:"Balance like a dachshund on a tightrope."},
+    {n:"Lat pulldown",q:"Pull the bar to your collarbone. Elbows down, chest up."},
+    {n:"Dumbbell step-up",q:"Step up like the mail truck just pulled in."},
+    {n:"Tri-pushdown",q:"Elbows pinned. Triceps only."},
+    {n:"Back extension",q:"Hips to shoulders, one straight line."},
+    {n:"Crunches",q:"Up fast, down slow. Leave your neck out of it."}]},
+  {title:"Session 2 \u00b7 Single-leg, bench + hinge",hero:"hq",ex:[
+    {n:"One-leg squat (each side)",q:"Back foot on the bench. Front knee stays behind the toes."},
+    {n:"Dumbbell bench press",q:"Control the weight on the way down."},
+    {n:"Russian deadlift (barbell)",q:"Bar brushes the shins. Back stays flat."},
+    {n:"Seated row",q:"Squeeze the shoulder blades. Don't rock back."},
+    {n:"Dumbbell lunge",q:"Big step. Back knee almost kisses the floor."},
+    {n:"Dumbbell bicep curl",q:"Elbows pinned. No swinging."},
+    {n:"Superman",q:"Fly, little hero. Pause at the top."},
+    {n:"Medicine ball twist",q:"Feet off the floor. Control the ball."}]}
+];
 /* per-week run spec from the book: [tue, wed, thu, fri, sat-strong-finish?] (wed/fri null = lift) */
 const BOOK=[
  /* 1 */ w=>[easy("4–5",4.5,w,1), null, quality(w,3,"intervals","3–4",3.5,6,"30s","Z4–5","1 min recovery"), easy(3,3,w,4), longRun(w,5)],
@@ -586,27 +688,25 @@ const BOOK=[
  /* 14 */ w=>[easy(3,3,w,1), null, easy(4,4,w,3), easy(3,3,w,4), longRun(w,5)],
 ];
 
+/* Mon + Wed are the lift days (Session 1, then Session 2). Week 11 moves the second lift to Friday. */
+function lift(w,d,k){
+  const S1=SESSIONS[k], deload=(w===13);
+  return {d,type:"strength",sess:k,title:deload?"Mobility + light lift":S1.title,
+    sub:deload?"Bodyweight only. Nothing heavy this week.":"8 exercises \u00b7 3\u00d712 each",
+    metric:deload?"2\u00d78":"3\u00d712",label:"Sets",hero:S1.hero,mi:0,xp:30};
+}
 function buildWeek(w){ // w = 0-indexed
   if(w===RACE_W) return [
-    {d:0,type:"easy",title:"3 miles easy + 6 strides",sub:WALK+" · 6 relaxed strides after",metric:"60/30",label:"Intervals",hero:"trail",mi:3,xp:30},
-    {d:1,type:"easy",title:"3 miles · last 10 min at RP",sub:WALK+" · last 10 min at race pace",metric:"60/30",label:"Intervals",hero:"speedster",mi:3,xp:35},
-    {d:2,type:"easy",title:"2–3 miles easy",sub:WALK,metric:"60/30",label:"Intervals",hero:"trail",mi:2.5,xp:25},
+    {d:0,type:"easy",title:"3 miles easy + 6 strides",sub:WALK+" \u00b7 6 relaxed strides after",metric:"60/30",label:"Intervals",hero:"trail",mi:3,xp:30},
+    {d:1,type:"easy",title:"3 miles \u00b7 last 10 min at RP",sub:WALK+" \u00b7 last 10 min at race pace",metric:"60/30",label:"Intervals",hero:"speedster",mi:3,xp:35},
+    {d:2,type:"easy",title:"2\u20133 miles easy",sub:WALK,metric:"60/30",label:"Intervals",hero:"trail",mi:2.5,xp:25},
     rest(3,"Rest","Feet up. The legs are baking."),
-    {d:4,type:"easy",title:"Shakeout 30 min + 3–4 strides",sub:"60s / 30s, absurdly slow · then a few strides",metric:"60/30",label:"Intervals",hero:"speedster",mi:2.6,xp:25},
-    {d:5,type:"race",title:"RACE DAY · 13.1",sub:"60s run / 30s walk. All of it.",metric:"60/30",label:"Intervals",hero:"heart",mi:13.1,xp:500},
-    {d:6,type:"rest",title:"Medal day",sub:"Bling! Sport your medal all day.",metric:"—",label:"Recovery",hero:"wizard",mi:0,xp:25}
+    {d:4,type:"easy",title:"Shakeout 30 min + 3\u20134 strides",sub:"60s / 30s, absurdly slow \u00b7 then a few strides",metric:"60/30",label:"Intervals",hero:"speedster",mi:2.6,xp:25},
+    {d:5,type:"race",title:"RACE DAY \u00b7 13.1",sub:"30s run / 30s walk. All of it.",metric:"30/30",label:"Intervals",hero:"heart",mi:13.1,xp:500},
+    {d:6,type:"rest",title:"Medal day",sub:"Bling! Sport your medal all day.",metric:"\u2014",label:"Recovery",hero:"wizard",mi:0,xp:25}
   ];
-  const sets = w<3?"3×10" : w<10?"4×6" : w<13?"3×5" : "2×8";
-  const phase = w<3?"Foundation" : w<10?"Build heavy" : w<13?"Hold the strength" : "Deload";
-  const deload = w===13;
-  const legs={d:0,type:"strength",title:deload?"Mobility + light legs":"Legs + glutes",
-    sub:deload?"Bodyweight only. Nothing heavy this week.":"Back squat · split squat · hip thrust · calf raise",
-    metric:sets,label:phase,hero:"captain",mi:0,xp:30};
-  const upper=d=>({d,type:"strength",title:deload?"Mobility + light upper":"Push, pull + core",
-    sub:deload?"Bodyweight only. Nothing heavy this week.":"Overhead press · row · Romanian deadlift · plank",
-    metric:sets,label:phase,hero:"hq",mi:0,xp:30});
   const [tue,wed,thu,fri,sat]=BOOK[w](w);
-  return [legs, tue, wed||upper(2), thu, fri||upper(4), sat, rest(6)];
+  return [lift(w,0,0), tue, wed||lift(w,2,1), thu, fri||lift(w,4,1), sat, rest(6)];
 }
 const PLAN=[...Array(NW)].map((_,i)=>buildWeek(i));
 
@@ -649,17 +749,20 @@ function todayIndex(){
 
 /* ============ derived stats ============ */
 function stats(){
-  let done=0,miles=0,longMax=0,rest=0,raceDone=false,perWeek=Array(NW).fill(0),xp=0;
+  let done=0,miles=0,longMax=0,rest=0,raceDone=false,perWeek=Array(NW).fill(0),xp=0,lifts=0,wedLifts=0;
   PLAN.forEach((wk,w)=>wk.forEach(day=>{
     if(!isDone(w,day.d))return;
     done++; xp+=day.xp; miles+=day.mi; perWeek[w]+=day.mi;
     if(day.type==="rest")rest++;
+    if(day.type==="strength"){lifts++;if(day.d===2)wedLifts++;}
     if(day.type==="long"&&day.mi>longMax)longMax=day.mi;
     if(day.type==="race"){raceDone=true;longMax=Math.max(longMax,13.1);}
   }));
   let streak=0;
   for(let w=0;w<NW;w++){ if(PLAN[w].filter(d=>d.type!=="rest").every(d=>isDone(w,d.d))) streak++; else if(w<todayIndex().w) streak=0; }
-  return {done,miles,longMax,rest,raceDone,perWeek,xp,streak,rescues:S.rescues||0,
+  const perfect=PLAN.some((wk,w)=>wk.filter(d=>d.type!=="rest").every(d=>isDone(w,d.d)));
+  const wtCount=Object.keys(S.wt||{}).filter(n=>Object.keys(S.wt[n]).length).length;
+  return {done,miles,longMax,rest,raceDone,perWeek,xp,streak,lifts,wedLifts,perfect,wtCount,rescues:S.rescues||0,
     total:NW*7,pct:Math.round(done/(NW*7)*100)};
 }
 const RANKS=[[0,"Rookie handler"],[350,"Field partner"],[900,"Squad captain"],[1600,"Elite operative"],[2400,"Legend of the long run"]];
@@ -673,16 +776,7 @@ function liftPlan(w,day){
     {name:'Bodyweight squat',sc:2,reps:'8'},{name:'Hip hinge',sc:2,reps:'8'},
     {name:'Push-up',sc:2,reps:'8'},{name:'Plank',sc:2,reps:'30s'},
   ];
-  const sc=w<3?3:w<10?4:3, reps=w<3?'10':w<10?'6':'5';
-  if(day.hero==='captain')return[
-    {name:'Back squat',sc,reps},{name:'Split squat',sc,reps},
-    {name:'Hip thrust',sc,reps:w<3?'12':'8'},{name:'Calf raise',sc,reps:w<3?'15':'12'},
-  ];
-  return[
-    {name:'Overhead press',sc,reps},{name:'Bent-over row',sc,reps},
-    {name:'Romanian deadlift',sc,reps},
-    {name:'Plank',sc,reps:w<3?'30s':w<10?'40s':'45s'},
-  ];
+  return SESSIONS[day.sess].ex.map(e=>({name:e.n,q:e.q,sc:3,reps:'12'}));
 }
 function setsKey(w,d,ei,si){return w+':'+d+':'+ei+':'+si;}
 function isSetDone(w,d,ei,si){return!!(S.sets&&S.sets[setsKey(w,d,ei,si)]);}
@@ -694,6 +788,7 @@ function setsProgHTML(w,d,exs){
 function toggleSet(w,d,ei,si,exs){
   if(!S.sets)S.sets={};
   const k=setsKey(w,d,ei,si);
+  const on=!S.sets[k];
   if(S.sets[k])delete S.sets[k]; else S.sets[k]=true;
   // update every matching button in-place (mission card + open modal)
   document.querySelectorAll(`.set-box[data-w="${w}"][data-d="${d}"][data-ei="${ei}"][data-si="${si}"]`)
@@ -703,36 +798,100 @@ function toggleSet(w,d,ei,si,exs){
   document.querySelectorAll(`.sets-prog[data-w="${w}"][data-d="${d}"]`)
     .forEach(el=>el.textContent=dn+'\u202f/\u202f'+tot+' sets');
   if(dn===tot&&!isDone(w,d)){
-    const before=SQUAD_ORDER.filter(unlocked);
+    const b=snap();
+    hideRest();
     S.done[key(w,d)]=true; save();
     const doneBtn=$('liftDoneBtn');
     if(doneBtn){doneBtn.textContent='\u2713 Mission complete';doneBtn.className='do done';}
-    burst(PLAN[w].find(x=>x.d===d));
+    const day=PLAN[w].find(x=>x.d===d);
+    burst(day);
     renderAll();
-    const gained=SQUAD_ORDER.filter(unlocked).find(x=>!before.includes(x));
-    if(gained)setTimeout(()=>openHero(gained),900);
-  }else{save();renderHeader();}
+    afterComplete(w,day,b);
+  }else{save();renderHeader();if(on)startRest(60);}
+}
+function wtGet(n,w){return S.wt&&S.wt[n]?S.wt[n][w]:undefined;}
+function wtPrev(n,w){const m=(S.wt&&S.wt[n])||{};const ks=Object.keys(m).map(Number).filter(x=>x<w).sort((a,b)=>b-a);return ks.length?m[ks[0]]:undefined;}
+function wtRowHTML(w,name){
+  const v=wtGet(name,w), pv=wtPrev(name,w);
+  return `<div class="wt-row"><span>Weight</span><input type="number" inputmode="decimal" min="0" step="2.5" placeholder="lb" data-wt="${name.replace(/"/g,'&quot;')}" data-w="${w}" value="${v??''}">${pv!=null?`<small>last time ${pv} lb</small>`:''}</div>`;
 }
 function liftInnerHTML(w,d,exs){
   return exs.map((ex,ei)=>
     `<div class="lift-ex">
       <div class="lift-name">${ex.name}</div>
+      ${ex.q?`<div class="lift-q">${ex.q}</div>`:''}
       <div class="lift-sets">
         ${[...Array(ex.sc)].map((_,si)=>
           `<button class="set-box${isSetDone(w,d,ei,si)?' hit':''}" data-w="${w}" data-d="${d}" data-ei="${ei}" data-si="${si}">${si+1}</button>`
         ).join('')}
         <span class="lift-reps">&times;&thinsp;${ex.reps}</span>
       </div>
+      ${ex.q?wtRowHTML(w,ex.name):''}
     </div>`
   ).join('');
 }
 function bindLiftButtons(root,exs){
+  root.querySelectorAll('.wt-row input').forEach(inp=>{
+    inp.onclick=e=>e.stopPropagation();
+    inp.onchange=()=>{
+      const n=inp.dataset.wt, w=+inp.dataset.w, v=parseFloat(inp.value);
+      if(!S.wt)S.wt={}; if(!S.wt[n])S.wt[n]={};
+      if(isNaN(v)||v<=0)delete S.wt[n][w]; else S.wt[n][w]=v;
+      save();
+      document.querySelectorAll('.wt-row input').forEach(o=>{if(o!==inp&&o.dataset.wt===n&&+o.dataset.w===w)o.value=inp.value;});
+      renderRecord();
+    };
+  });
   root.querySelectorAll('.set-box').forEach(btn=>{
     btn.onclick=e=>{
       e.stopPropagation();
       toggleSet(+btn.dataset.w,+btn.dataset.d,+btn.dataset.ei,+btn.dataset.si,exs);
     };
   });
+}
+/* ---- lift mode ---- */
+let LM=null;
+function openLiftMode(w,d){
+  const day=PLAN[w].find(x=>x.d===d); if(!day)return;
+  const exs=liftPlan(w,day); if(!exs)return;
+  const first=exs.findIndex((x,ei)=>![...Array(x.sc)].every((_,si)=>isSetDone(w,d,ei,si)));
+  LM={w,d,day,exs,i:first<0?0:first};
+  $("modal").classList.remove("on");
+  let el=$("lm"); if(!el){el=document.createElement("div");el.id="lm";document.body.appendChild(el);}
+  el.classList.add("on"); lmRender();
+}
+function closeLiftMode(){const el=$("lm");if(el)el.classList.remove("on");LM=null;renderAll();}
+function lmExDone(ei){const {w,d,exs}=LM;return [...Array(exs[ei].sc)].every((_,si)=>isSetDone(w,d,ei,si));}
+function lmRender(){
+  const {w,d,day,exs,i}=LM, ex=exs[i], el=$("lm"), last=i===exs.length-1;
+  el.innerHTML=`<div class="in">
+    <div class="bar"><button id="lmX" aria-label="Exit lift mode">\u2715</button>
+      <div class="eyebrow">${SQUAD[day.hero].name} \u00b7 ${i+1} of ${exs.length}</div><div style="width:40px"></div></div>
+    <div class="segs">${exs.map((_,k)=>`<i class="${lmExDone(k)?"done":""} ${k===i?"cur":""}"></i>`).join("")}</div>
+    <div class="mid">
+      <div class="eyebrow">${day.title}</div>
+      <h2>${ex.name}</h2>
+      <div class="big">${ex.sc} \u00d7 ${ex.reps}</div>
+      ${ex.q?`<div class="lift-q" style="font-size:16px;margin:0 0 22px">${ex.q}</div>`:""}
+      <div class="lift-sets">${[...Array(ex.sc)].map((_,si)=>
+        `<button class="set-box${isSetDone(w,d,i,si)?" hit":""}" data-w="${w}" data-d="${d}" data-ei="${i}" data-si="${si}">${si+1}</button>`).join("")}</div>
+      ${ex.q?wtRowHTML(w,ex.name):""}
+    </div>
+    <div class="nav2">
+      <button class="ghost" id="lmBack" ${i===0?"disabled style='opacity:.3'":""}>\u2039 Back</button>
+      <button class="do ${lmExDone(i)?"pulse":""}" id="lmNext">${last?(isDone(w,d)?"\u2713 All done":"Finish"):"Next \u203a"}</button>
+    </div></div>`;
+  $("lmX").onclick=closeLiftMode;
+  $("lmBack").onclick=()=>{if(LM.i>0){LM.i--;lmRender();}};
+  $("lmNext").onclick=()=>{if(LM.i<exs.length-1){LM.i++;lmRender();}else closeLiftMode();};
+  bindLiftButtons(el,exs);
+  el.querySelectorAll(".set-box").forEach(b=>b.addEventListener("click",()=>{
+    if(isDone(w,d)){setTimeout(closeLiftMode,1100);return;}
+    if(lmExDone(LM.i)){
+      $("lmNext").classList.add("pulse");
+      if(LM.i<exs.length-1)setTimeout(()=>{if(LM&&LM.i===i&&lmExDone(i)){LM.i++;lmRender();}},900);
+    }else $("lmNext").classList.remove("pulse");
+  }));
 }
 function openLift(w,d){
   const day=PLAN[w].find(x=>x.d===d); if(!day)return;
@@ -748,6 +907,7 @@ function openLift(w,d){
       </div>
     </div>
     <div class="body">
+      <button class="do" id="lmStart" style="width:100%;margin-top:4px">Lift mode \u00b7 one at a time</button>
       <div class="lift-list">${liftInnerHTML(w,d,exs)}</div>
       <button class="do${isDone(w,d)?' done':''}" id="liftDoneBtn" style="width:100%;margin-top:8px">
         ${isDone(w,d)?'\u2713 Mission complete':'Mark it done'}
@@ -756,6 +916,7 @@ function openLift(w,d){
   $('modal').classList.add('on');
   $('closeX').onclick=()=>$('modal').classList.remove('on');
   bindLiftButtons($('sheet'),exs);
+  $('lmStart').onclick=()=>openLiftMode(w,d);
   $('liftDoneBtn').onclick=()=>{toggle(w,d);$('modal').classList.remove('on');};
 }
 
@@ -792,8 +953,9 @@ function renderToday(){
   if(liftEl){
     const exs=liftPlan(t.w,day);
     if(exs&&!rescueMode){
-      liftEl.innerHTML='<div class="lift-list">'+liftInnerHTML(t.w,day.d,exs)+'</div>';
+      liftEl.innerHTML='<button class="do" id="lmTodayBtn" style="width:100%;margin-top:10px">Lift mode \u00b7 one at a time</button><div class="lift-list">'+liftInnerHTML(t.w,day.d,exs)+'</div>';
       bindLiftButtons(liftEl,exs);
+      $("lmTodayBtn").onclick=()=>openLiftMode(t.w,day.d);
     }else{liftEl.innerHTML='';}
   }
   const done=isDone(t.w,t.d);
@@ -807,6 +969,14 @@ function renderToday(){
   $("swapBar").innerHTML = (swapFrom&&swapFrom.w===t.w)
     ? `<div class="cap" style="width:100%">Moving \u201c${workoutAt(t.w,swapFrom.slot).title}\u201d \u2014 tap the day it moves to.<small>Tap it again to cancel.</small></div>` : "";
   $("raceLine").textContent=(S.race||"Race day")+" · "+raceDate().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  const dl=Math.ceil((raceDate()-new Date())/864e5);
+  $("dramaLine").textContent=stats().raceDone?"13.1. Done. Legend."
+    :dl<=0?"Race day. This is it."
+    :dl===1?"Tomorrow. Lay out the kit. Sleep."
+    :dl<=7?dl+" days. The taper is working. Trust it."
+    :dl<=28?dl+" days. The work is going in the bank."
+    :dl+" days. One run at a time.";
+  $("countdown").classList.toggle("pulse",dl<=7&&dl>0);
 }
 
 function dayRow(w,slot,isToday){
@@ -920,12 +1090,99 @@ function openHero(k){
 }
 $("modal").onclick=e=>{if(e.target.id==="modal")$("modal").classList.remove("on")};
 
+const BADGES=[
+  ["\ud83e\udd47","First blood","Finish your first mission",s=>s.done>=1],
+  ["\ud83c\udfcb\ufe0f","Iron Lizzie","Finish 10 lifts",s=>s.lifts>=10],
+  ["\ud83d\udcc6","Midweek regular","Finish 5 Wednesday lifts",s=>s.wedLifts>=5],
+  ["\u2b50","Perfect week","Finish every workout in a week",s=>s.perfect],
+  ["\ud83d\udedf","Pocket rescue","Use a rescue mission",s=>s.rescues>=1],
+  ["\ud83d\udd1f","Double digits","Run 10+ miles in one go",s=>s.longMax>=10],
+  ["\ud83d\udee3\ufe0f","50 club","Log 50 total miles",s=>s.miles>=50],
+  ["\ud83c\udf19","Month crusher","Hit a month's mile and lift goals",s=>monthGoals().some(g=>g.won)],
+  ["\ud83d\udcd3","Heavy hitter","Log weights on 5 exercises",s=>s.wtCount>=5]
+];
+/* ---- monthly goals: each calendar month's target is whatever the plan schedules in it ---- */
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function monthGoals(){
+  const m={};
+  PLAN.forEach((wk,w)=>wk.forEach(day=>{
+    const dt=dayDate(w,day.d), k=dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0");
+    const g=m[k]||(m[k]={key:k,label:MONTHS[dt.getMonth()],miles:0,lifts:0,dMiles:0,dLifts:0});
+    const dn=isDone(w,day.d);
+    g.miles+=day.mi; if(dn)g.dMiles+=day.mi;
+    if(day.type==="strength"){g.lifts++; if(dn)g.dLifts++;}
+  }));
+  return Object.keys(m).sort().map(k=>{
+    const g=m[k]; g.miles=Math.round(g.miles*10)/10; g.dMiles=Math.round(g.dMiles*10)/10;
+    g.won=g.miles>0&&g.dMiles>=g.miles&&g.dLifts>=g.lifts; return g;
+  });
+}
+function currentMonth(gs){
+  const n=new Date(), k=n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0");
+  return gs.find(g=>g.key===k)||(k<gs[0].key?gs[0]:gs[gs.length-1]);
+}
+function goalLines(g){
+  const pm=g.miles?Math.min(100,g.dMiles/g.miles*100):0, pl=g.lifts?Math.min(100,g.dLifts/g.lifts*100):0;
+  return `<div class="gline"><span>Miles</span><span>${g.dMiles} / ${g.miles}</span></div><div class="gbar ${pm>=100?"full":""}"><i style="width:${pm}%"></i></div>
+    <div class="gline"><span>Lifts</span><span>${g.dLifts} / ${g.lifts}</span></div><div class="gbar ${pl>=100?"full":""}"><i style="width:${pl}%"></i></div>`;
+}
+function renderMonths(){
+  const gs=monthGoals(), cur=currentMonth(gs);
+  $("monthGoals").innerHTML=gs.map(g=>`<div class="mgoal ${g===cur?"now":""} ${g.won?"won":""}">
+    <h4>${g.label}<em>${g.won?"\u2713 Crushed":g===cur?"This month":""}</em></h4>${goalLines(g)}</div>`).join("");
+  $("monthCard").innerHTML=`<div class="mgoal ${cur.won?"won":"now"}" style="margin-top:14px"><h4>${cur.label} goals<em>${cur.won?"\u2713 Crushed":""}</em></h4>${goalLines(cur)}</div>`;
+}
+function renderBadges(s){
+  const got=BADGES.filter(b=>b[3](s)).length;
+  $("badgeCount").textContent=got+" / "+BADGES.length+" earned";
+  $("badges").innerHTML=BADGES.map(b=>`<div class="badge ${b[3](s)?"":"lock"}"><i>${b[0]}</i><div><b>${b[1]}</b><span>${b[2]}</span></div></div>`).join("");
+}
+function renderLiftLog(){
+  const rows=Object.keys(S.wt||{}).map(n=>{
+    const m=S.wt[n], ks=Object.keys(m).map(Number).sort((a,b)=>a-b);
+    return ks.length?{n,first:m[ks[0]],last:m[ks[ks.length-1]]}:null;
+  }).filter(Boolean);
+  $("liftLog").innerHTML=rows.length?rows.map(r=>{
+    const d=r.last-r.first;
+    return `<div class="logrow"><span>${r.n}</span><b>${r.first===r.last?r.last+" lb":r.first+" \u2192 "+r.last+" lb"}${d>0?" (+"+d+")":""}</b></div>`;
+  }).join(""):`<div class="cap r">Log a weight on any lift day and it shows up here.</div>`;
+}
+function recapData(){
+  const w=Math.min(RACE_W,todayIndex().w), wk=PLAN[w], s=stats();
+  const runs=wk.filter(d=>["easy","quality","long","race"].includes(d.type)), lifts=wk.filter(d=>d.type==="strength");
+  const dn=a=>a.filter(d=>isDone(w,d.d)).length;
+  const work=wk.filter(d=>d.type!=="rest"), pct=work.length?dn(work)/work.length:0;
+  const planned=Math.round(wk.reduce((a,d)=>a+d.mi,0)*10)/10;
+  const xp=wk.filter(d=>isDone(w,d.d)).reduce((a,d)=>a+d.xp,0);
+  const verdict=pct>=1?"Flawless. Weezer is writing this one on the fridge."
+    :pct>=.7?"Solid week. The kind that wins races."
+    :pct>0?"Some of it counts, and some of it counts a lot. Next week."
+    :"A clean slate. Day one is the only hard one.";
+  return {w,runs:dn(runs)+" / "+runs.length,lifts:dn(lifts)+" / "+lifts.length,
+    miles:(Math.round(s.perWeek[w]*10)/10)+" / "+planned,xp,verdict};
+}
+function renderRecap(){
+  const r=recapData();
+  $("recapWk").textContent="Week "+(r.w+1)+" of "+NW;
+  $("recap").innerHTML=`<h4>Week ${r.w+1} recap</h4>
+    <div class="rrow"><b>Runs</b><span>${r.runs}</span></div>
+    <div class="rrow"><b>Lifts</b><span>${r.lifts}</span></div>
+    <div class="rrow"><b>Miles</b><span>${r.miles}</span></div>
+    <div class="rrow"><b>XP earned</b><span>+${r.xp}</span></div>
+    <div class="cap">${r.verdict}</div>
+    <button class="do" id="shareBtn" style="width:100%">Share recap</button>`;
+  $("shareBtn").onclick=async()=>{
+    const t=`Super Weezer \u00b7 Week ${r.w+1}: ${r.runs} runs, ${r.lifts} lifts, ${r.miles} miles. ${r.verdict}`;
+    try{ if(navigator.share) await navigator.share({text:t}); else {await navigator.clipboard.writeText(t);$("shareBtn").textContent="Copied!";} }catch(e){}
+  };
+}
 function renderRecord(){
   const s=stats();
   $("sMiles").textContent=Math.round(s.miles);
   $("sMissions").textContent=s.done;
   $("sLongest").textContent=s.longMax;
-  $("sStreak").textContent=s.streak||0;
+  $("sStreak").textContent=(s.streak?"\ud83d\udd25 ":"")+(s.streak||0);
+  renderRecap(s);renderBadges(s);renderLiftLog();renderMonths();
   const max=Math.max(...s.perWeek,13.1);
   $("bars").innerHTML=s.perWeek.map(m=>`<div class="${m?"on":""}" style="height:${Math.max(4,m/max*100)}%"></div>`).join("");
   $("startInput").value=S.start||defaultStart();
@@ -933,17 +1190,104 @@ function renderRecord(){
   $("raceEcho").textContent=raceDate().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
 }
 
-function renderAll(){renderHeader();renderToday();renderPlan();renderSquad();renderRecord();}
+function renderAll(){renderMonths();renderHeader();renderToday();renderPlan();renderSquad();renderRecord();}
 
 /* ============ actions ============ */
 function toggle(w,d){
-  const k=key(w,d), before=SQUAD_ORDER.filter(unlocked);
-  if(S.done[k]) delete S.done[k]; else {S.done[k]=true; burst(PLAN[w][d]);}
+  const k=key(w,d), b=snap(), day=PLAN[w][d];
+  if(S.done[k]) delete S.done[k]; else {S.done[k]=true; burst(day);}
   save(); rescueMode=false; renderAll();
-  const after=SQUAD_ORDER.filter(unlocked);
-  const gained=after.find(x=>!before.includes(x));
-  if(gained) setTimeout(()=>openHero(gained),900);
+  if(S.done[k]) afterComplete(w,day,b);
 }
+
+/* ---- what happens after a mission is finished: one celebration, in priority order ---- */
+const MILES=[25,50,100,150];
+function snap(){return {heroes:SQUAD_ORDER.filter(unlocked),miles:stats().miles};}
+function afterComplete(w,day,b){
+  if(!day)return;
+  if(day.type==="race"){setTimeout(openFinale,1000);return;}
+  const gained=SQUAD_ORDER.filter(unlocked).find(x=>!b.heroes.includes(x));
+  if(gained){setTimeout(()=>openHero(gained),900);return;}
+  const mi=stats().miles, seen=S.ms||[];
+  const crossed=MILES.filter(n=>b.miles<n&&mi>=n&&!seen.includes(n));
+  if(crossed.length){S.ms=[...seen,...crossed];save();setTimeout(()=>openMilestone(crossed[crossed.length-1]),900);return;}
+  const won=monthGoals().find(g=>g.won&&!(S.mc||[]).includes(g.key));
+  if(won){S.mc=[...(S.mc||[]),won.key];save();setTimeout(()=>openMonthWon(won),900);return;}
+  if(day.type==="easy"||day.type==="quality"||day.type==="long")setTimeout(()=>openFeel(w,day),900);
+}
+function sheetOpen(html){
+  $("sheet").innerHTML=html;
+  $("modal").classList.add("on");
+  const x=$("closeX"); if(x)x.onclick=()=>$("modal").classList.remove("on");
+}
+const MILE_ART={25:"trail",50:"speedster",100:"agent",150:"heart"};
+const MILE_LINE={25:"Twenty-five miles. That's a marathon's worth of showing up, minus one.",
+  50:"Fifty miles. The squad is officially impressed. Weezer is mostly asleep, but impressed.",
+  100:"One hundred miles. Triple digits. Nobody who started this on October 26th is the same person.",
+  150:"One-fifty. You've run further than most people drive to work in a month."};
+function openMilestone(m){
+  sheetOpen(`<div class="top"><img src="${ART[MILE_ART[m]]}" alt=""><button class="x" id="closeX">\u2715</button></div>
+    <div class="body"><div class="eyebrow">Milestone unlocked</div><h2>${m} miles</h2>
+    <div class="cap" style="margin:12px 0 14px">${MILE_LINE[m]}</div></div>`);
+  burst({type:"race"});
+}
+function openMonthWon(g){
+  sheetOpen(`<div class="top"><img src="${ART.agent}" alt=""><button class="x" id="closeX">\u2715</button></div>
+    <div class="body"><div class="eyebrow">Month crusher</div><h2>${g.label}: done</h2>
+    <div class="drow"><b>Miles</b><span>${g.dMiles} of ${g.miles}</span></div>
+    <div class="drow"><b>Lifts</b><span>${g.dLifts} of ${g.lifts}</span></div>
+    <div class="cap" style="margin:14px 0">Every mile. Every lift. Weezer is updating the fridge.</div></div>`);
+  burst({type:"race"});
+}
+const FEEL=[["\ud83d\ude35","Rough","Rough ones count double. Eat something. Weezer is proud."],
+  ["\ud83d\ude10","Meh","Meh miles are still miles. Banked."],
+  ["\ud83d\ude42","Good","Good. Boring. Exactly the plan."],
+  ["\ud83d\udd25","Great","Don't tell the legs, but you're getting fast. Allegedly."]];
+function openFeel(w,day){
+  const k=key(w,day.d), cur=(S.feel||{})[k];
+  sheetOpen(`<div class="body" style="padding-top:20px"><div class="eyebrow">Debrief</div><h2>How'd it feel?</h2>
+    <div class="feel">${FEEL.map((f,i)=>`<button data-f="${i}" class="${cur===i?"on":""}"><em>${f[0]}</em>${f[1]}</button>`).join("")}</div>
+    <div class="cap" id="feelLine">Tell Weezer. He's listening. Mostly.</div>
+    <button class="ghost" id="feelX" style="margin-bottom:14px">Skip</button></div>`);
+  $("sheet").querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.f; S.feel=Object.assign({},S.feel||{},{[k]:i}); save();
+    $("sheet").querySelectorAll("[data-f]").forEach(o=>o.classList.toggle("on",o===b));
+    $("feelLine").textContent=FEEL[i][2]; $("feelX").textContent="Done";
+  });
+  $("feelX").onclick=()=>$("modal").classList.remove("on");
+}
+function openFinale(){
+  const s=stats();
+  sheetOpen(`<div class="top"><img src="${ART.heart}" alt=""><button class="x" id="closeX">\u2715</button></div>
+    <div class="body"><div class="eyebrow">Finisher</div><h2>13.1 miles. Done.</h2>
+    <div class="drow"><b>Race</b><span>${S.race||"Half Marathon"}</span></div>
+    <div class="drow"><b>Miles</b><span>${Math.round(s.miles)} logged over 15 weeks</span></div>
+    <div class="drow"><b>Missions</b><span>${s.done} of ${s.total}</span></div>
+    <div class="drow"><b>Rank</b><span>${rank(s.xp)} \u00b7 ${s.xp} XP</span></div>
+    <div class="cap" style="margin:14px 0">Not all heroes wear capes. Some have short legs, a lot of courage, and a very patient human.<small>The Little Hero will be at the finish line. Horizontal.</small></div></div>`);
+  burst({type:"race"});
+}
+
+/* ---- rest timer between sets ---- */
+let restT=null,restEnd=0;
+const REST_END=["Back under the bar.","Time. Go be strong.","Next set. Weezer's watching.","Rest is over. Lift."];
+function startRest(sec){
+  restEnd=Date.now()+sec*1000;
+  $("rest").classList.remove("over");$("rest").classList.add("on");
+  clearInterval(restT);restT=setInterval(tickRest,250);tickRest();
+}
+function tickRest(){
+  const left=Math.ceil((restEnd-Date.now())/1000);
+  if(left>0){$("restT").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");$("restL").textContent="Rest";return;}
+  clearInterval(restT);restT=null;
+  $("restT").textContent="GO";$("restL").textContent=REST_END[Math.floor(Math.random()*REST_END.length)];
+  $("rest").classList.add("over");
+  if(navigator.vibrate)navigator.vibrate([200,100,200]);
+  setTimeout(()=>{if(!restT)hideRest();},6000);
+}
+function hideRest(){clearInterval(restT);restT=null;$("rest").classList.remove("on","over");}
+$("restX").onclick=hideRest;
+$("restAdd").onclick=()=>{if(restT){restEnd+=15000;tickRest();}else startRest(15);};
 $("doBtn").onclick=()=>{const t=todayIndex();toggle(t.w,workoutAt(t.w,t.d).d);};
 $("swapToday").onclick=()=>{const t=todayIndex();armSwap(t.w,t.d);
   if(swapFrom)$("weekList").scrollIntoView({behavior:"smooth",block:"start"});};
@@ -956,7 +1300,7 @@ $("pPrev").onclick=()=>{pWeek=(pWeek+NW-1)%NW;renderPlan();};
 $("pNext").onclick=()=>{pWeek=(pWeek+1)%NW;renderPlan();};
 $("startInput").onchange=e=>{S.start=e.target.value;save();renderAll();};
 $("raceInput").oninput=e=>{S.race=e.target.value;save();$("raceEcho").textContent=raceDate().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});};
-$("resetBtn").onclick=()=>{if(confirm("Erase every completed mission and start the saga over?")){S={start:S.start,race:S.race,done:{},sets:{},rescues:0,seen:[],v:3};save();renderAll();}};
+$("resetBtn").onclick=()=>{if(confirm("Erase every completed mission and start the saga over?")){S={v:4,start:S.start,race:S.race,done:{},sets:{},rescues:0,seen:[]};save();renderAll();}};
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
@@ -998,8 +1342,10 @@ function save(){Store.set(KEY,JSON.stringify(S));}
 (async()=>{
   const raw=await Store.get(KEY);
   if(raw){try{S=Object.assign(S,JSON.parse(raw));}catch(e){}}
-  if(S.v!==3){ // 15-week book plan: workout slots changed, so old ticks no longer line up
-    S.done={};S.sets={};S.perm={};S.start=defaultStart();S.v=3;
+  if(S.v!==4){ // 15-week book plan: workout slots changed, so old ticks no longer line up
+    S.done={};S.sets={};S.perm=null;S.rescues=0;S.seen=[];
+    S.start=defaultStart();
+    S.v=4;
   }
   if(!S.start)S.start=defaultStart();
   pWeek=todayIndex().w;
