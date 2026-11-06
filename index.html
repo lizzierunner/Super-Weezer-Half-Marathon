@@ -483,7 +483,7 @@ nav button.on em{filter:none}
     <div class="sect"><h3>This week</h3><div class="eyebrow" id="weekFocus">Base building</div></div>
     <div id="swapBar"></div>
     <div id="weekList"></div>
-    <div class="cap r" style="margin-top:10px">Runs Tue / Thu / Fri · Long run Sat · Lift Mon / Wed<small>Tap ⇄ on any day to move it. Life happens; the week still adds up.</small></div>
+    <div class="cap r" style="margin-top:10px">Runs Tue / Thu · Long run Sat · Lift Mon / Wed · Fun Fri<small>Tap ⇄ on any day to move it. Life happens; the week still adds up.</small></div>
   </div>
 </section>
 
@@ -617,15 +617,15 @@ const FOCUS=["Base building","Build","Build","Recovery week","Build","Build","Re
              "Build","Peak block","Recovery week","Peak block","Peak long run","Recovery week",
              "Taper","Race week"];
 const NOTES=[
- "Fifteen weeks. Four runs, two lifts, one full rest day. Long run lands on Saturday.",
+ "Fifteen weeks. Three runs, a fun cross-training day, two lifts, one full rest day. Long run lands on Saturday.",
  "Long run grows by a mile. Every easy run stays truly easy.",
- "Eight miles, and the first hill reps on Thursday. Walk breaks from the first step.",
+ "Eight miles, and the first short intervals on Thursday. Walk breaks from the first step.",
  "Cut-back week with real intervals: one minute hard, two minutes easy.",
  "Back to eight, legs fresh from the cut-back. Keep the 60/30 honest.",
- "Nine miles and hill reps. Start practicing what you'll eat and drink on race day.",
+ "Nine miles and 45-second intervals. Start practicing what you'll eat and drink on race day.",
  "Cut-back, with a 10-minute strong finish on Saturday. End stronger than you started.",
  "Double digits. This is the week the plan starts feeling real.",
- "Eleven miles and the longest hill reps yet. Wear the race-day shoes.",
+ "Eleven miles and the longest short intervals yet. Wear the race-day shoes.",
  "Cut-back, with eight intervals Thursday. Trust the recovery.",
  "Ten miles. Wednesday is a run this week and Friday is the lift.",
  "Twelve. The longest run of the plan. Race day will feel shorter.",
@@ -646,6 +646,8 @@ const quality=(w,d,kind,label,mi,reps,work,zone,rec)=>({d,type:"quality",
 const longRun=(w,d,strong)=>{const L=LONGS[w];return{d,type:"long",title:L+" mile long run",
   sub:"30s run / 30s walk"+(strong?" \u00b7 last 10 min strong":" \u00b7 9 AM"),metric:"30/30",label:"Intervals",
   hero:L>=8?"agent":"trail",mi:L,xp:Math.round(L*10)};};
+const fun=d=>({d,type:"xt",title:"Fun cross-training",sub:"Bike, swim, hike, dance, anything you enjoy \u00b7 30\u201345 min easy",
+  metric:"XT",label:"Cross-train",hero:"agent",mi:0,xp:25});
 const rest=(d,title,sub)=>({d,type:"rest",title:title||"Rest",sub:sub||"Full stop. This is training too.",
   metric:"—",label:"Recovery",hero:"wizard",mi:0,xp:10});
 
@@ -672,20 +674,20 @@ const SESSIONS=[
 ];
 /* per-week run spec from the book: [tue, wed, thu, fri, sat-strong-finish?] (wed/fri null = lift) */
 const BOOK=[
- /* 1 */ w=>[easy("4–5",4.5,w,1), null, quality(w,3,"intervals","3–4",3.5,6,"30s","Z4–5","1 min recovery"), easy(3,3,w,4), longRun(w,5)],
- /* 2 */ w=>[easy(5,5,w,1), null, easy(4,4,w,3), easy(3,3,w,4), longRun(w,5)],
- /* 3 */ w=>[easy(6,6,w,1), null, quality(w,3,"hills",3,3,4,"45s","Z4–5","jog down"), easy(4,4,w,4), longRun(w,5)],
- /* 4 */ w=>[easy(7,7,w,1), null, quality(w,3,"intervals",3,3,6,"1 min","Z4","2 min recovery"), easy(4,4,w,4), longRun(w,5)],
- /* 5 */ w=>[easy(5,5,w,1), null, easy("3–5",4,w,3), easy(3,3,w,4), longRun(w,5)],
- /* 6 */ w=>[easy(6,6,w,1), null, quality(w,3,"hills",3,3,6,"45s","Z4–5","jog down"), easy(3,3,w,4), longRun(w,5)],
- /* 7 */ w=>[easy(7,7,w,1), null, easy(5,5,w,3), easy(4,4,w,4), longRun(w,5,true)],
- /* 8 */ w=>[easy(5,5,w,1), null, easy("4–6",5,w,3), easy(3,3,w,4), longRun(w,5)],
- /* 9 */ w=>[easy(6,6,w,1), null, quality(w,3,"hills",3,3,6,"1 min","Z4–5","jog down"), easy(4,4,w,4), longRun(w,5)],
- /* 10 */ w=>[easy(7,7,w,1), null, quality(w,3,"intervals","3–4",3.5,8,"1 min","Z4–5","2 min recovery"), easy(3,3,w,4), longRun(w,5,true)],
+ /* 1 */ w=>[easy("4–5",4.5,w,1), null, quality(w,3,"intervals","3–4",3.5,6,"30s","Z4–5","1 min recovery"), fun(4), longRun(w,5)],
+ /* 2 */ w=>[easy(5,5,w,1), null, easy(4,4,w,3), fun(4), longRun(w,5)],
+ /* 3 */ w=>[easy(6,6,w,1), null, quality(w,3,"intervals",3,3,4,"45s","Z4–5","1 min recovery"), fun(4), longRun(w,5)],
+ /* 4 */ w=>[easy(7,7,w,1), null, quality(w,3,"intervals",3,3,6,"1 min","Z4","2 min recovery"), fun(4), longRun(w,5)],
+ /* 5 */ w=>[easy(5,5,w,1), null, easy("3–5",4,w,3), fun(4), longRun(w,5)],
+ /* 6 */ w=>[easy(6,6,w,1), null, quality(w,3,"intervals",3,3,6,"45s","Z4–5","1 min recovery"), fun(4), longRun(w,5)],
+ /* 7 */ w=>[easy(7,7,w,1), null, easy(5,5,w,3), fun(4), longRun(w,5,true)],
+ /* 8 */ w=>[easy(5,5,w,1), null, easy("4–6",5,w,3), fun(4), longRun(w,5)],
+ /* 9 */ w=>[easy(6,6,w,1), null, quality(w,3,"intervals",3,3,6,"1 min","Z4–5","2 min recovery"), fun(4), longRun(w,5)],
+ /* 10 */ w=>[easy(7,7,w,1), null, quality(w,3,"intervals","3–4",3.5,8,"1 min","Z4–5","2 min recovery"), fun(4), longRun(w,5,true)],
  /* 11 */ w=>[easy(4,4,w,1), easy(3,3,w,2), easy("4–6",5,w,3), null, longRun(w,5)],
- /* 12 */ w=>[easy(6,6,w,1), rest(2,"Rest · walk Weezer","A slow walk with a short dog. That's the whole job."), easy("5–6",5.5,w,3), easy(4,4,w,4), longRun(w,5)],
- /* 13 */ w=>[easy(4,4,w,1), null, quality(w,3,"intervals","3–4",3.5,6,"2 min","Z4","2 min recovery"), easy(3,3,w,4), longRun(w,5)],
- /* 14 */ w=>[easy(3,3,w,1), null, easy(4,4,w,3), easy(3,3,w,4), longRun(w,5)],
+ /* 12 */ w=>[easy(6,6,w,1), rest(2,"Rest · walk Weezer","A slow walk with a short dog. That's the whole job."), easy("5–6",5.5,w,3), fun(4), longRun(w,5)],
+ /* 13 */ w=>[easy(4,4,w,1), null, quality(w,3,"intervals","3–4",3.5,6,"2 min","Z4","2 min recovery"), fun(4), longRun(w,5)],
+ /* 14 */ w=>[easy(3,3,w,1), null, easy(4,4,w,3), fun(4), longRun(w,5)],
 ];
 
 /* Mon + Wed are the lift days (Session 1, then Session 2). Week 11 moves the second lift to Friday. */
@@ -961,7 +963,7 @@ function renderToday(){
   const done=isDone(t.w,t.d);
   $("doBtn").textContent=done?"✓ Mission complete":(day.type==="rest"?"Rested. Log it.":"Mark it done");
   $("doBtn").className="do"+(done?" done":"");
-  $("rescueBtn").style.display=(done||day.type==="rest"||day.type==="race"||day.type==="strength")?"none":"block";
+  $("rescueBtn").style.display=(done||day.type==="rest"||day.type==="race"||day.type==="strength"||day.type==="xt")?"none":"block";
   $("rescueBtn").innerHTML=rescueMode?"Full<br>mission":"Not<br>feeling<br>it";
   $("weekFocus").textContent=FOCUS[t.w];
   $("weekList").innerHTML=[0,1,2,3,4,5,6].map(sl=>dayRow(t.w,sl,t.d===sl)).join("");
